@@ -61,7 +61,7 @@
     },
 
     "AWSRegionArch2AMI" : {
-      "us-east-1"      : {"64HVM" : "ami-640af40c" }
+      "us-east-1"      : {"64HVM" : "ami-4431572c" }
     }
   },
     
@@ -87,9 +87,7 @@
 
           "# Setup correct file ownership\n",
           "#wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",
-      	  
-      	  
-      	  "yum install -y wget \n",
+
       	  "wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/latest/1.7.1/ambari.repo -O /etc/yum.repos.d/ambari.repo \n",
       	
       	  "chkconfig iptables off \n",
