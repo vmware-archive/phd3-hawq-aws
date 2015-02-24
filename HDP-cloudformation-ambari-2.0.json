@@ -1,0 +1,219 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  
+  "Description" : "Simple Cloudformation template used to setup a HDP cluster.",
+  
+  "Parameters" : {
+      
+    "KeyName": {
+      "Default" : "hdp-simple-test",
+      "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255",
+      "AllowedPattern" : "[\\x20-\\x7E]*",
+      "ConstraintDescription" : "can contain only ASCII characters."
+    },    
+    
+    "MasterNodeInstanceType" : {
+      "Description" : "Master Node",
+      "Type" : "String",
+      "Default" : "m1.medium",
+      "AllowedValues" : [ "t1.micro","m1.small","m1.medium","m1.large","m1.xlarge","m2.xlarge","m2.2xlarge","m2.4xlarge","m3.xlarge","m3.2xlarge","c1.medium","c1.xlarge","cc1.4xlarge","cc2.8xlarge","cg1.4xlarge"],
+      "ConstraintDescription" : "must be a valid EC2 instance type."
+    },
+
+    "DataNodeInstanceType" : {
+      "Description" : "Data Node",
+      "Type" : "String",
+      "Default" : "m1.medium",
+      "AllowedValues" : [ "t1.micro","m1.small","m1.medium","m1.large","m1.xlarge","m2.xlarge","m2.2xlarge","m2.4xlarge","m3.xlarge","m3.2xlarge","c1.medium","c1.xlarge","cc1.4xlarge","cc2.8xlarge","cg1.4xlarge"],
+      "ConstraintDescription" : "must be a valid EC2 instance type."
+    },
+    "SSHLocation" : {
+      "Description" : " The IP address range that can be used to SSH to the EC2 instances",
+      "Type": "String",
+      "MinLength": "9",
+      "MaxLength": "18",
+      "Default": "0.0.0.0/0",
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+    },
+    "MinimumSlaveNodes" : {
+      "Description" : "Minimum number of slave nodes",
+      "Type": "Number",
+      "Default": 2
+    },
+    "MaximumSlaveNodes" : {
+      "Description" : "Maximum number of slave nodes",
+      "Type": "Number",
+      "Default": 2
+    }     
+  },
+  
+  "Mappings" : {
+    "AWSInstanceType2Arch" : {
+      "t1.micro"    : { "Arch" : "64" },
+      "m1.small"    : { "Arch" : "64" },
+      "m1.medium"   : { "Arch" : "64" },
+      "m1.large"    : { "Arch" : "64" },
+      "m1.xlarge"   : { "Arch" : "64" },
+      "m2.xlarge"   : { "Arch" : "64" },
+      "m2.2xlarge"  : { "Arch" : "64" },
+      "m2.4xlarge"  : { "Arch" : "64" },
+      "m3.xlarge"   : { "Arch" : "64" },
+      "m3.2xlarge"  : { "Arch" : "64" },
+      "c1.medium"   : { "Arch" : "64" },
+      "c1.xlarge"   : { "Arch" : "64" },
+      "cc1.4xlarge" : { "Arch" : "64HVM" },
+      "cc2.8xlarge" : { "Arch" : "64HVM" },
+      "cg1.4xlarge" : { "Arch" : "64HVM" }
+    },
+
+    "AWSRegionArch2AMI" : {
+      "us-east-1"      : { "32" : "ami-436a702a", "64" : "ami-8d756fe4", "64HVM" : "NOT_YET_SUPPORTED" }
+    }
+  },
+    
+  "Resources" : {     
+      
+    "MasterNode": {  
+      "Type": "AWS::EC2::Instance",
+      "Metadata" : {
+       
+      },
+      "Properties": {
+        "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
+                          { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "MasterNodeInstanceType" }, "Arch" ] } ] },
+        "InstanceType"   : { "Ref" : "MasterNodeInstanceType" },
+        "SecurityGroups" : [ {"Ref" : "HDPSecurityGroup"} ],
+        "KeyName"        : { "Ref" : "KeyName" },
+        "Tags" : [{
+          "Key"   : "Name",
+          "Value" : { "Fn::Join"  : [ "-" , [ { "Ref" : "AWS::StackName" }, "masternode" ]]}
+        }],
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+          "#!/bin/bash -v\n",
+
+          "# Setup correct file ownership\n",
+          "wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",
+      
+          "yum install -y ambari-server\n",
+
+          "ambari-server setup -s\n",
+
+          "ambari-server start\n",
+
+          "yum install -y ambari-agent\n",
+
+          "ambari-agent start\n",
+    
+          "yum -y install ant\n",
+
+          "yum -y install git\n",
+
+          "MY_IP=`(curl http://169.254.169.254/latest/meta-data/local-hostname)`\n",
+
+          "number_of_slaves=", { "Ref" : "MaximumSlaveNodes" } , "\n",
+
+          "wget https://github.com/varunrao/HDP-deployment/raw/master/multi-node-hdfs-yarn-blueprint.json\n",
+
+          "wget https://github.com/varunrao/HDP-deployment/raw/master/blueprint-cluster-definition.json\n",
+
+          "wget https://github.com/varunrao/HDP-deployment/raw/master/wait-for-slaves.sh\n",
+          "wget https://github.com/varunrao/HDP-deployment/raw/master/replace-host-ip-for-cluster.sh\n",
+
+          "chmod +x wait-for-slaves.sh\n",
+
+          "./wait-for-slaves.sh $MY_IP $number_of_slaves\n",
+          
+          "chmod +x replace-host-ip-for-cluster.sh\n",
+
+          "./replace-host-ip-for-cluster.sh $MY_IP\n",
+
+          "curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/blueprints/multi-node-hdfs-yarn-blueprint -d @multi-node-hdfs-yarn-blueprint.json\n",
+
+
+          "curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/clusters/MyCluster -d @blueprint-cluster-definition.json\n"
+
+        ]]}}        
+      }
+    },
+
+    "DataNodeLaunchConfiguration": {  
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "Metadata" : {
+        
+      },
+      "Properties": {
+        "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
+                          { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "DataNodeInstanceType" }, "Arch" ] } ] },
+        "InstanceType"   : { "Ref" : "DataNodeInstanceType" },
+        "SecurityGroups" : [ {"Ref" : "HDPSecurityGroup"} ],
+        "KeyName"        : { "Ref" : "KeyName" },
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+          "#!/bin/bash -v\n",
+          "# Setup correct file ownership\n",
+          "wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",
+
+          "yum install -y ambari-agent\n",
+
+          "# Setup correct file ownership\n",
+          "ambari_agent=/etc/ambari-agent/conf/ambari-agent.ini\n",
+          "sed -i 's/hostname=.*/hostname=", { "Fn::GetAtt" : [ "MasterNode", "PrivateDnsName" ]}, "/g' $ambari_agent\n",
+
+          "ambari-agent start\n"
+
+        ]]}}        
+      }
+    },
+
+    "DataNodesAutoScalingGroup": {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "Properties": {
+        "AvailabilityZones": { "Fn::GetAZs": "" },
+        "LaunchConfigurationName": { "Ref": "DataNodeLaunchConfiguration" },
+        "MinSize": { "Ref": "MinimumSlaveNodes" },
+        "MaxSize": { "Ref": "MaximumSlaveNodes" },
+        "Tags" : [{
+          "Key"   : "Name",
+          "Value" : { "Fn::Join"  : [ "-" , [ { "Ref" : "AWS::StackName" }, "datanode" ]]},
+          "PropagateAtLaunch" : "true"
+        }]
+      },
+      "DependsOn" : "MasterNode"
+    },
+
+
+    "HDPSecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : "Enable HTTP access via port 80 and SSH access",
+        "SecurityGroupIngress" : [
+           {"IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "8000", "ToPort" : "8000", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "8440", "ToPort" : "8440", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "8441", "ToPort" : "8441", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "8080", "ToPort" : "8080", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "8983", "ToPort" : "8983", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "8020", "ToPort" : "8020", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "50070", "ToPort" : "50070", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "50090", "ToPort" : "50090", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "50105", "ToPort" : "50105", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "50030", "ToPort" : "50030", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "50060", "ToPort" : "50060", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "50010", "ToPort" : "50010", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "50020", "ToPort" : "50020", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation"}}
+        ]
+      }      
+    }          
+  },
+  
+  "Outputs" : {
+    "HDPMasterNode" : {
+      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "MasterNode", "PublicDnsName" ]}, ":8080/"]] },
+      "Description" : "HDP Host node"
+    }
+  }
+}

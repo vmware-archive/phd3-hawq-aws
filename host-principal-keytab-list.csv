@@ -1,0 +1,26 @@
+ip-10-80-207-26.ec2.internal,Ambari Smoke Test User,ambari-qa@ec2-54-91-112-204.compute-1.amazonaws.com,smokeuser.headless.keytab,/etc/security/keytabs,ambari-qa,hadoop,440
+ip-10-80-207-26.ec2.internal,HDFS User,hdfs@ec2-54-91-112-204.compute-1.amazonaws.com,hdfs.headless.keytab,/etc/security/keytabs,hdfs,hadoop,440
+ip-10-80-207-26.ec2.internal,NodeManager SPNEGO User,HTTP/ip-10-80-207-26.ec2.internal@ec2-54-91-112-204.compute-1.amazonaws.com,spnego.service.keytab,/etc/security/keytabs,root,hadoop,440
+ip-10-80-207-26.ec2.internal,DataNode,dn/ip-10-80-207-26.ec2.internal@ec2-54-91-112-204.compute-1.amazonaws.com,dn.service.keytab,/etc/security/keytabs,hdfs,hadoop,400
+ip-10-80-207-26.ec2.internal,NodeManager,nm/ip-10-80-207-26.ec2.internal@ec2-54-91-112-204.compute-1.amazonaws.com,nm.service.keytab,/etc/security/keytabs,yarn,hadoop,400
+ip-10-159-29-245.ec2.internal,Ambari Smoke Test User,ambari-qa@ec2-54-91-112-204.compute-1.amazonaws.com,smokeuser.headless.keytab,/etc/security/keytabs,ambari-qa,hadoop,440
+ip-10-159-29-245.ec2.internal,HDFS User,hdfs@ec2-54-91-112-204.compute-1.amazonaws.com,hdfs.headless.keytab,/etc/security/keytabs,hdfs,hadoop,440
+ip-10-159-29-245.ec2.internal,NodeManager SPNEGO User,HTTP/ip-10-159-29-245.ec2.internal@ec2-54-91-112-204.compute-1.amazonaws.com,spnego.service.keytab,/etc/security/keytabs,root,hadoop,440
+ip-10-159-29-245.ec2.internal,DataNode,dn/ip-10-159-29-245.ec2.internal@ec2-54-91-112-204.compute-1.amazonaws.com,dn.service.keytab,/etc/security/keytabs,hdfs,hadoop,400
+ip-10-159-29-245.ec2.internal,NodeManager,nm/ip-10-159-29-245.ec2.internal@ec2-54-91-112-204.compute-1.amazonaws.com,nm.service.keytab,/etc/security/keytabs,yarn,hadoop,400
+domU-12-31-39-04-50-01.compute-1.internal,Ambari Smoke Test User,ambari-qa@ec2-54-91-112-204.compute-1.amazonaws.com,smokeuser.headless.keytab,/etc/security/keytabs,ambari-qa,hadoop,440
+domU-12-31-39-04-50-01.compute-1.internal,HDFS User,hdfs@ec2-54-91-112-204.compute-1.amazonaws.com,hdfs.headless.keytab,/etc/security/keytabs,hdfs,hadoop,440
+domU-12-31-39-04-50-01.compute-1.internal,NodeManager SPNEGO User,HTTP/domu-12-31-39-04-50-01.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,spnego.service.keytab,/etc/security/keytabs,root,hadoop,440
+domU-12-31-39-04-50-01.compute-1.internal,DataNode,dn/domu-12-31-39-04-50-01.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,dn.service.keytab,/etc/security/keytabs,hdfs,hadoop,400
+domU-12-31-39-04-50-01.compute-1.internal,NodeManager,nm/domu-12-31-39-04-50-01.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,nm.service.keytab,/etc/security/keytabs,yarn,hadoop,400
+domU-12-31-39-17-25-8C.compute-1.internal,Ambari Smoke Test User,ambari-qa@ec2-54-91-112-204.compute-1.amazonaws.com,smokeuser.headless.keytab,/etc/security/keytabs,ambari-qa,hadoop,440
+domU-12-31-39-17-25-8C.compute-1.internal,HDFS User,hdfs@ec2-54-91-112-204.compute-1.amazonaws.com,hdfs.headless.keytab,/etc/security/keytabs,hdfs,hadoop,440
+domU-12-31-39-17-25-8C.compute-1.internal,HDFS SPNEGO User,HTTP/domu-12-31-39-17-25-8c.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,spnego.service.keytab,/etc/security/keytabs,root,hadoop,440
+domU-12-31-39-17-25-8C.compute-1.internal,HDFS SPNEGO User,HTTP/domu-12-31-39-17-25-8c.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,spnego.service.keytab,/etc/security/keytabs,root,hadoop,440
+domU-12-31-39-17-25-8C.compute-1.internal,History server SPNEGO User,HTTP/domu-12-31-39-17-25-8c.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,spnego.service.keytab,/etc/security/keytabs,root,hadoop,440
+domU-12-31-39-17-25-8C.compute-1.internal,ResourceManager SPNEGO User,HTTP/domu-12-31-39-17-25-8c.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,spnego.service.keytab,/etc/security/keytabs,root,hadoop,440
+domU-12-31-39-17-25-8C.compute-1.internal,History Server,jhs/domu-12-31-39-17-25-8c.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,jhs.service.keytab,/etc/security/keytabs,mapred,hadoop,400
+domU-12-31-39-17-25-8C.compute-1.internal,Nagios Server,nagios/domu-12-31-39-17-25-8c.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,nagios.service.keytab,/etc/security/keytabs,nagios,hadoop,400
+domU-12-31-39-17-25-8C.compute-1.internal,NameNode,nn/domu-12-31-39-17-25-8c.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,nn.service.keytab,/etc/security/keytabs,hdfs,hadoop,400
+domU-12-31-39-17-25-8C.compute-1.internal,ResourceManager,rm/domu-12-31-39-17-25-8c.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,rm.service.keytab,/etc/security/keytabs,yarn,hadoop,400
+domU-12-31-39-17-25-8C.compute-1.internal,ZooKeeper Server,zookeeper/domu-12-31-39-17-25-8c.compute-1.internal@ec2-54-91-112-204.compute-1.amazonaws.com,zk.service.keytab,/etc/security/keytabs,zookeeper,hadoop,400

@@ -1,0 +1,19 @@
+{
+  "blueprint" : "multi-node-hdfs-yarn-blueprint",
+  "host_groups" :[
+    {
+      "name" : "master", 
+      "hosts" : [         
+        {
+          "fqdn" : master_node
+        }
+      ]
+    },
+    {
+      "name" : "slaves", 
+      "hosts" : [
+        slave_nodes
+      ]
+    }
+  ]
+}
