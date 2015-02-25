@@ -39,12 +39,9 @@
       "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
       "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
     },
-    "MinimumSlaveNodes" : {
-      "Description" : "Minimum number of slave nodes",
-      "Type": "Number",
-      "Default": 2
-    },
-    "MaximumSlaveNodes" : {
+
+
+    "SlaveNodes" : {
       "Description" : "Maximum number of slave nodes",
       "Type": "Number",
       "Default": 4,
@@ -113,21 +110,23 @@
 
           "ambari-server setup -s\n",
 
-          "ambari-server start\n",
+          "#ambari-server start\n",
 
           "yum install -y ambari-agent\n",
 
           "ambari-agent start\n",
     
           "yum -y install ant\n",
-
+		  "yum -y install createrepo \n",
           "yum -y install git\n",
+          "yum -y install httpd\n",
           
+          "service httpd start \n",
           
-
+			
           "MY_IP=`(curl http://169.254.169.254/latest/meta-data/local-hostname)`\n",
 
-          "number_of_slaves=", { "Ref" : "MaximumSlaveNodes" } , "\n",
+          "number_of_slaves=", { "Ref" : "SlaveNodes" } , "\n",
 
           "#wget https://github.com/varunrao/HDP-deployment/raw/master/multi-node-hdfs-yarn-blueprint.json\n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/blueprint.json \n",
@@ -143,11 +142,12 @@
           
           "wget https://s3.amazonaws.com/hawq-ambari-assets/hawq-plugin-1.0-30.tar.gz \n",
           "wget https://s3.amazonaws.com/hawq-ambari-assets/PADS-1.3.0.0-11698.tar.gz --no-check-certificate \n",
-		  "tar xvfz hawq-plugin-1.0-30.tar.gz \n",
-		  "tar xvfz PADS-1.3.0.0-11698.tar.gz \n",
-		  "yum install -y ./hawq-plugin-1.0-30/hawq-plugin-1.0-30.rpm \n",
-		  "ambari-server restart \n",
-		  "./PADS-1.3.0.0-11698.tar.gz/setup_repo.sh \n",
+		  "tar xvfz hawq-plugin-1.0-30.tar.gz >> phd.log \n",
+		  "tar xvfz PADS-1.3.0.0-11698.tar.gz >> phd.log \n",
+		  "yum install -y ./hawq-plugin-1.0-30/hawq-plugin-1.0-30.noarch.rpm >> phd.log\n",
+		  "/PADS-1.3.0.0-11698/setup_repo.sh >> phd.log \n",
+
+		  "ambari-server start >> phd.log \n",
 
 
 
@@ -160,11 +160,11 @@
           "./replace-host-ip-for-cluster.sh $MY_IP\n",
 
           "#curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/blueprints/multi-node-hdfs-yarn-blueprint -d @multi-node-hdfs-yarn-blueprint.json\n",
-          "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic -d @blueprint.json \n",
+          "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic -d @blueprint.json >> phd.log\n",
 
 
           "#curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/clusters/MyCluster -d @blueprint-cluster-definition.json\n",
-          "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/clusters/PivCluster -d @hostmapping-template.json\n"
+          "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/clusters/PivCluster -d @hostmapping-template.json >>phd.log\n"
 
         ]]}}        
       }
@@ -205,8 +205,8 @@
       "Properties": {
         "AvailabilityZones": { "Fn::GetAZs": "" },
         "LaunchConfigurationName": { "Ref": "DataNodeLaunchConfiguration" },
-        "MinSize": { "Ref": "MinimumSlaveNodes" },
-        "MaxSize": { "Ref": "MaximumSlaveNodes" },
+        "MinSize": { "Ref": "SlaveNodes" },
+        "MaxSize": { "Ref": "SlaveNodes" },
         "Tags" : [{
           "Key"   : "Name",
           "Value" : { "Fn::Join"  : [ "-" , [ { "Ref" : "AWS::StackName" }, "datanode" ]]},
@@ -245,7 +245,7 @@
   "Outputs" : {
     "HDPMasterNode" : {
       "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "MasterNode", "PublicDnsName" ]}, ":8080/"]] },
-      "Description" : "HDP Host node"
+      "Description" : "PHD Ambari Host node"
     }
   }
 }
