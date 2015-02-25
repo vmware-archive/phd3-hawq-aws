@@ -12,7 +12,6 @@
                 { "name": "NAMENODE" }, 
                 { "name": "PXF" },
                 { "name": "ZOOKEEPER_SERVER" }, 
-                { "name": "GFXD_LOCATOR" },
                 { "name": "HBASE_MASTER" }, 
                 { "name": "GANGLIA_SERVER" }, 
                 { "name": "HDFS_CLIENT" }, 
@@ -44,7 +43,6 @@
                 { "name": "APP_TIMELINE_SERVER" },
                 { "name": "HAWQSTANDBY" },
                 { "name": "ZOOKEEPER_SERVER" }, 
-                { "name": "GFXD_LOCATOR" },
                 { "name": "HIVE_SERVER" }, 
                 { "name": "HIVE_METASTORE" }, 
                 { "name": "MYSQL_SERVER" }, 
@@ -58,7 +56,6 @@
             "components": [
                 { "name": "OOZIE_SERVER" }, 
                 { "name": "ZOOKEEPER_SERVER" }, 
-                { "name": "GFXD_LOCATOR" },
                 { "name": "GANGLIA_MONITOR" }
             ]
         }, 
@@ -69,7 +66,6 @@
                 { "name": "HBASE_REGIONSERVER" }, 
                 { "name": "NODEMANAGER" }, 
                 { "name": "DATANODE" }, 
-                { "name": "GFXD_SERVER" },
                 { "name": "PXF" },
                 { "name": "HAWQSEGMENT" },
                 { "name": "GANGLIA_MONITOR" }
