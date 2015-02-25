@@ -163,7 +163,7 @@
           "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic -d @blueprint.json \n",
 
 
-          "#curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/clusters/MyCluster -d @blueprint-cluster-definition.json\n"
+          "#curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/clusters/MyCluster -d @blueprint-cluster-definition.json\n",
           "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/clusters/PivCluster -d @hostmapping-template.json\n"
 
         ]]}}        
