@@ -6,7 +6,7 @@
   "Parameters" : {
       
     "KeyName": {
-      "Default" : "hdp-simple-test",
+      "Default" : "phd-hawq",
       "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
       "Type": "String",
       "MinLength": "1",
@@ -139,15 +139,15 @@
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/wait-for-slaves.sh \n",
           
           "#wget https://github.com/varunrao/HDP-deployment/raw/master/replace-host-ip-for-cluster.sh \n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/replace-host-ip-for-cluster.sh \n"
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/replace-host-ip-for-cluster.sh \n",
           
           "wget https://s3.amazonaws.com/hawq-ambari-assets/hawq-plugin-1.0-30.tar.gz \n",
           "wget https://s3.amazonaws.com/hawq-ambari-assets/PADS-1.3.0.0-11698.tar.gz --no-check-certificate \n",
 		  "tar xvfz hawq-plugin-1.0-30.tar.gz \n",
 		  "tar xvfz PADS-1.3.0.0-11698.tar.gz \n",
 		  "yum install -y ./hawq-plugin-1.0-30/hawq-plugin-1.0-30.rpm \n",
-		  "ambari-server restart"
-		  "./PADS-1.3.0.0-11698.tar.gz/setup_repo.sh
+		  "ambari-server restart \n",
+		  "./PADS-1.3.0.0-11698.tar.gz/setup_repo.sh \n",
 
 
 
