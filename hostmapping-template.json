@@ -20,16 +20,11 @@
             "name": "master_2"
         },
         {
-            "hosts": [
-                { "fqdn": "${machines[3]}" },
-                { "fqdn": "${machines[4]}" },
-                { "fqdn": "${machines[5]}" },
-                { "fqdn": "${machines[6]}" },
-                { "fqdn": "${machines[7]}" },
-                { "fqdn": "${machines[8]}" },
-                { "fqdn": "${machines[9]}" }
-            ], 
-            "name": "slave"
+        
+         "name" : "slaves", 
+      	  "hosts" : [
+        		slave_nodes
+    	
         }
     ]
 }

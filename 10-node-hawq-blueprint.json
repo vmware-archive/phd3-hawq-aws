@@ -1,8 +1,8 @@
 {
     "Blueprints": {
-        "stack_name": "HDP", 
-        "stack_version": "2.1", 
-        "blueprint_name": "blueprint-phd-multinode-basic"
+        "stack_name": "PHD", 
+        "stack_version": "3.0.0", 
+        "blueprint_name": "10-node-hawq-blueprint"
     }, 
     "host_groups": [
         {
