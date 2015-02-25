@@ -4,33 +4,53 @@
     "host_groups": [
         {
             "hosts": [
-                { "fqdn": "${machines[0]}" }
-            ], 
-            "name": "gateway"
-        },
-        {
-            "hosts": [
-                { "fqdn": "${machines[1]}" }
+                {
+                    "fqdn": "${machines[9]}"
+                }
             ], 
             "name": "master_1"
         },
         {
             "hosts": [
-                { "fqdn": "${machines[2]}" }
+                {
+                    "fqdn": "${machines[1]}"
+                }
             ], 
             "name": "master_2"
         },
         {
             "hosts": [
-                { "fqdn": "${machines[3]}" },
+                {
+                    "fqdn": "${machines[2]}"
+                }
+            ], 
+            "name": "master_3"
+        },
+        {
+            "hosts": [
+                {
+                    "fqdn": "${machines[3]}"
+                }
+            ], 
+            "name": "master_4"
+        },
+        {
+            "hosts": [
                 { "fqdn": "${machines[4]}" },
                 { "fqdn": "${machines[5]}" },
                 { "fqdn": "${machines[6]}" },
                 { "fqdn": "${machines[7]}" },
-                { "fqdn": "${machines[8]}" },
-                { "fqdn": "${machines[9]}" }
+                { "fqdn": "${machines[8]}" }
             ], 
             "name": "slave"
+        },
+        {
+            "hosts": [
+                {
+                    "fqdn": "${machines[0]}"
+                }
+            ], 
+            "name": "gateway"
         }
     ]
 }
