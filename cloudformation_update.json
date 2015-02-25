@@ -48,7 +48,7 @@
       "Description" : "Maximum number of slave nodes",
       "Type": "Number",
       "Default": 4,
-       "AllowedValues" : [4,8,16,32]
+       "AllowedValues" : [4,8,10,16,32]
     }     
   },
   
@@ -122,13 +122,15 @@
           "yum -y install ant\n",
 
           "yum -y install git\n",
+          
+          
 
           "MY_IP=`(curl http://169.254.169.254/latest/meta-data/local-hostname)`\n",
 
           "number_of_slaves=", { "Ref" : "MaximumSlaveNodes" } , "\n",
 
           "#wget https://github.com/varunrao/HDP-deployment/raw/master/multi-node-hdfs-yarn-blueprint.json\n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/10-node-hawq-blueprint.json \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/blueprint.json \n",
 
           "#wget https://github.com/varunrao/HDP-deployment/raw/master/blueprint-cluster-definition.json\n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/hostmapping-template.json \n",
@@ -138,6 +140,16 @@
           
           "#wget https://github.com/varunrao/HDP-deployment/raw/master/replace-host-ip-for-cluster.sh \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/replace-host-ip-for-cluster.sh \n"
+          
+          "wget https://s3.amazonaws.com/hawq-ambari-assets/hawq-plugin-1.0-30.tar.gz \n",
+          "wget https://s3.amazonaws.com/hawq-ambari-assets/PADS-1.3.0.0-11698.tar.gz --no-check-certificate \n",
+		  "tar xvfz hawq-plugin-1.0-30.tar.gz \n",
+		  "tar xvfz PADS-1.3.0.0-11698.tar.gz \n",
+		  "yum install -y ./hawq-plugin-1.0-30/hawq-plugin-1.0-30.rpm \n",
+		  "ambari-server restart"
+		  "./PADS-1.3.0.0-11698.tar.gz/setup_repo.sh
+
+
 
           "chmod +x wait-for-slaves.sh\n",
 
@@ -148,7 +160,7 @@
           "./replace-host-ip-for-cluster.sh $MY_IP\n",
 
           "#curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/blueprints/multi-node-hdfs-yarn-blueprint -d @multi-node-hdfs-yarn-blueprint.json\n",
-          "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/10-node-hawq-blueprint -d @10-node-hawq-blueprint.json \n",
+          "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic -d @blueprint.json \n",
 
 
           "#curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/clusters/MyCluster -d @blueprint-cluster-definition.json\n"
@@ -172,7 +184,9 @@
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
           "# Setup correct file ownership\n",
-          "wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",
+          "#wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",
+      	  
+      	  "wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/latest/1.7.1/ambari.repo -O /etc/yum.repos.d/ambari.repo \n",
 
           "yum install -y ambari-agent\n",
 
