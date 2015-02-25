@@ -89,7 +89,15 @@
           "#wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",
 
       	  "wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/latest/1.7.1/ambari.repo -O /etc/yum.repos.d/ambari.repo \n",
-      	
+      	 
+		  "yum -y remove *openjdk \n",      	 
+      	  
+      	  "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.rpm \n",
+      	  "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.tar.gz \n",
+		  "wget --no-check-certificate http://public-repo-1.hortonworks.com/ARTIFACTS/UnlimitedJCEPolicyJDK7.zip \n",
+		  "yum -y install jdk-7u67-linux-x64.rpm \n",
+		  
+		  
       	  "chkconfig iptables off \n",
 		  "chkconfig ip6tables off \n",
 		  "service iptables stop \n",
@@ -97,6 +105,11 @@
           "sed -i 's/SELINUX=[a-z]*/SELINUX=disabled/' /etc/selinux/config \n",
           "echo 0 > /selinux/enforce \n",
           "yum install -y ambari-server\n",
+
+		  "mv jdk-7u67-linux-x64.tar.gz /var/lib/ambari-server/resources/ \n",
+		  "mv UnlimitedJCEPolicyJDK7.zip /var/lib/ambari-server/resources/ \n",
+
+
 
           "ambari-server setup -s\n",
 
@@ -114,7 +127,8 @@
 
           "number_of_slaves=", { "Ref" : "MaximumSlaveNodes" } , "\n",
 
-          "wget https://github.com/varunrao/HDP-deployment/raw/master/multi-node-hdfs-yarn-blueprint.json\n",
+          "#wget https://github.com/varunrao/HDP-deployment/raw/master/multi-node-hdfs-yarn-blueprint.json\n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/10-node-hawq-blueprint.json \n",
 
           "wget https://github.com/varunrao/HDP-deployment/raw/master/blueprint-cluster-definition.json\n",
 
