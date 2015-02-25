@@ -1,0 +1,60 @@
+{
+    "Blueprints": {
+        "stack_name": "PHD", 
+        "stack_version": "3.0.0.0", 
+        "blueprint_name": "blueprint-phd-multinode-basic"
+    }, 
+    "host_groups": [
+        {
+            "cardinality": "1", 
+            "name": "gateway", 
+            "components": [
+                { "name": "HDFS_CLIENT" }, 
+                { "name": "GANGLIA_MONITOR" }
+            ]
+        },
+        {
+            "cardinality": "1", 
+            "name": "master_1", 
+            "components": [
+                { "name": "NAMENODE" }, 
+                { "name": "HAWQMASTER" },
+
+                { "name": "HDFS_CLIENT" }, 
+
+                { "name": "NAGIOS_SERVER" }, 
+                { "name": "GANGLIA_SERVER" }, 
+                { "name": "GANGLIA_MONITOR" }
+            ]
+        }, 
+        {
+            "cardinality": "1", 
+            "name": "master_2", 
+            "components": [
+                { "name": "SECONDARY_NAMENODE" }, 
+                { "name": "HAWQSTANDBY" },
+
+                { "name": "HDFS_CLIENT" }, 
+
+                { "name": "GANGLIA_MONITOR" }
+            ]
+        }, 
+        {
+            "cardinality": "7", 
+            "name": "slave", 
+            "components": [
+                { "name": "DATANODE" }, 
+                { "name": "HAWQSEGMENT" },
+
+                { "name": "GANGLIA_MONITOR" }
+            ]
+        }
+    ], 
+    "configurations": [
+        {
+            "nagios-env": {
+                "nagios_contact": "admin@localhost"
+            }
+        }
+    ]
+}
