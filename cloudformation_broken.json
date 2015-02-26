@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
   
-  "Description" : "Simple Cloudformation template used to setup a PHD3.0 cluster.",
+  "Description" : "Simple Cloudformation template used to setup a HDP cluster.",
   
   "Parameters" : {
       
@@ -42,16 +42,16 @@
 
 
     "ClusterNodes" : {
-      "Description" : "Maximum number of slave nodes",
+      "Description" : "Maximum number of cluster nodes",
       "Type": "Number",
-      "Default": 10,
+      "Default": 6,
        "AllowedValues" : [6,10,18,34]
     }     
   },
   
   "Mappings" : {
     "AWSInstanceType2Arch" : {
-       "cc2.8xlarge" : { "Arch" : "64HVM" },
+      "cc2.8xlarge" : { "Arch" : "64HVM" },
       "cg1.4xlarge" : { "Arch" : "64HVM" },
 	  "i2.8xlarge" : { "Arch" : "64HVM" },
       "hs1.8xlarge" : { "Arch" : "64HVM" },
@@ -76,6 +76,8 @@
                           { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "ManagementNodeInstanceType" }, "Arch" ] } ] },
         "InstanceType"   : { "Ref" : "ManagementNodeInstanceType" },
         "SecurityGroups" : [ {"Ref" : "PHDSecurityGroup"} ],
+        
+        
         "KeyName"        : { "Ref" : "KeyName" },
         "Tags" : [{
           "Key"   : "Name",
@@ -112,7 +114,7 @@
 
           "ambari-server setup -s\n",
 
-          "ambari-server start\n",
+          "#ambari-server start\n",
 
           "#yum install -y ambari-agent\n",
 
@@ -130,17 +132,17 @@
 
           "number_of_slaves=", { "Ref" : "ClusterNodes" } , "\n",
 
-          "#wget https://github.com/varunrao/PHD-deployment/raw/master/multi-node-hdfs-yarn-blueprint.json\n",
+          "#wget https://github.com/varunrao/HDP-deployment/raw/master/multi-node-hdfs-yarn-blueprint.json\n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/blueprint.json \n",
 
-          "#wget https://github.com/varunrao/PHD-deployment/raw/master/blueprint-cluster-definition.json\n",
+          "#wget https://github.com/varunrao/HDP-deployment/raw/master/blueprint-cluster-definition.json\n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/hostmapping-template.json \n",
 
-          "#wget https://github.com/varunrao/PHD-deployment/raw/master/wait-for-slaves.sh\n",
+          "#wget https://github.com/varunrao/HDP-deployment/raw/master/wait-for-slaves.sh\n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/wait-for-slaves.sh \n",
           
-          "#wget https://github.com/varunrao/PHD-deployment/raw/master/replace-host-ip-for-cluster.sh \n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/Management/replace-host-ip-for-cluster.sh \n",
+          "#wget https://github.com/varunrao/HDP-deployment/raw/master/replace-host-ip-for-cluster.sh \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/replace-host-ip-for-cluster.sh \n",
           
           "wget https://s3.amazonaws.com/hawq-ambari-assets/hawq-plugin-1.0-30.tar.gz \n",
           "wget https://s3.amazonaws.com/hawq-ambari-assets/PADS-1.3.0.0-11698.tar.gz --no-check-certificate \n",
@@ -213,10 +215,10 @@
           "# Setup correct file ownership\n",
           "ambari_agent=/etc/ambari-agent/conf/ambari-agent.ini\n",
           "sed -i 's/hostname=.*/hostname=", { "Fn::GetAtt" : [ "ManagementNode", "PrivateDnsName" ]}, "/g' $ambari_agent\n",
-     	  "wget https://github.com/dbbaskette/heffalump/blob/master/setupNodes.sh \n",
+		  "#wget https://github.com/dbbaskette/heffalump/blob/master/setupNodes.sh \n",
 		  "setupNodes.sh \n",
           "ambari-agent start\n"
-
+          
         ]]}}        
       }
     },
@@ -226,6 +228,7 @@
       "Properties": {
         "AvailabilityZones": { "Fn::GetAZs": "" },
         "LaunchConfigurationName": { "Ref": "ClusterNodeLaunchConfiguration" },
+        "MinSize": { "Ref": 0 },
         "MaxSize": { "Ref": "ClusterNodes" },
         "Tags" : [{
           "Key"   : "Name",
@@ -243,8 +246,8 @@
         "GroupDescription" : "Enable HTTP access via port 80 and SSH access",
         "SecurityGroupIngress" : [
            {"IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : "0.0.0.0/0"},
-          {"IpProtocol" : "tcp", "FromPort" : "8080", "ToPort" : "8080", "CidrIp" : "0.0.0.0/0"},
-          {"IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation"}}
+           {"IpProtocol" : "tcp", "FromPort" : "8080", "ToPort" : "8080", "CidrIp" : "0.0.0.0/0"},
+           {"IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation"}}
         ]
       }      
     }          
