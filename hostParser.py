@@ -2,8 +2,7 @@ __author__ = 'dbaskette'
 import json
 
 def parseAmbariHosts():
-
-    # Parse ambari-hosts.txt and pull out agent hostnaes
+    # Parse ambari-hosts.txt and pull out agent hostnames
 
     jsonString=""
     jsonFound = False
@@ -17,10 +16,11 @@ def parseAmbariHosts():
         jsonString = jsonString[:-1]
     for items in json.loads(jsonString)["items"]:
         hostNames.append(items["Hosts"]["host_name"])
-
     return hostNames
 
 def parseBlueprint(numHosts):
+    # Parse Blueprint to pull out Groups and # hosts per
+
     groupsArray=[]
     with open(str(numHosts)+"-node-blueprint.json","r") as blueprintFile:
         bluePrint = json.load(blueprintFile)
@@ -29,6 +29,8 @@ def parseBlueprint(numHosts):
         return groupsArray
 
 def buildHostMappingTemplate(hostNames,groups):
+    # Assign Hosts to groups
+
     template = "{\n\"blueprint\": \"blueprint-phd-multinode-basic\",\n\"default_password\": \"super-secret-password\",\n\"host_groups\": [\n"
     i=0
     hostGroup = []
@@ -39,45 +41,29 @@ def buildHostMappingTemplate(hostNames,groups):
             hostInfo["group"] = group.split(":")[1]
             hostGroup.append(hostInfo)
             i += 1
-
-    # Reverse List
-    currentGroup = ""
-    groups=[]
     groupInfo={}
-
-
     for host in hostGroup:
-        if host["group"] in currentGroup:
-            groupInfo["hostString"] = groupInfo["hostString"]+":"+host["hostname"]
-            groupInfo["group"] = host["group"]
-            #groups.append(groupInfo)
+        try:
+            currentVal = groupInfo[host["group"]]
+            groupInfo[host["group"]] = currentVal + ":" + host["hostname"]
+        except:
+            currentVal = ""
+            groupInfo[host["group"]] = host["hostname"]
 
-
-        else:
-            groupInfo={}
-            groupInfo["hostString"] = host["hostname"]
-            groupInfo["group"] = host["group"]
-            currentGroup = host["group"]
-            groups.append(groupInfo)
-
-    print template
     hostsString = ""
-    hostsString= "\"hosts\": [\n "
-    for group in groups:
-        #print group
+    with open("./hostmapping-template.json", "w") as templateFile:
+        templateFile.write(template)
+        for group in groupInfo:
+            hostsString = hostsString + "{\n\"hosts\": [\n "
+            hosts = str(groupInfo[group]).split(":")
+            for host in hosts:
+                hostsString = hostsString + "{\"fqdn\": \"" + host + "\"},"
+            hostsString = hostsString[:-1] + "\n"
+            hostsString = hostsString + "],"
 
-        hosts = str(group["hostString"]).split(":")
-        for host in hosts:
-            hostsString = hostsString +  "{\"fqdn\": \""+host+"\"},"
-        hostsString = hostsString[:-1]+"\n"
-        hostsString = hostsString + "],"
-        hostsString = hostsString + "\"name\": "+"\""+group["group"]+"\"}\n ,"+"\"hosts\": [\n "
-    hostsString = hostsString[:-13]
-    hostsString = hostsString + "]\n}"
-    print hostsString
-
-
-
+            hostsString = hostsString + "\"name\": " + "\"" + group + "\"}\n ,"
+        hostsString = hostsString[:-1] + "\n]\n}"
+        templateFile.write(hostsString)
 
 if __name__ == '__main__':
     hostNames =parseAmbariHosts()

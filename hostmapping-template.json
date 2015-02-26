@@ -1,56 +1,33 @@
 {
-    "blueprint": "blueprint-phd-multinode-basic",
-    "default_password": "super-secret-password", 
-    "host_groups": [
-        {
-            "hosts": [
-                {
-                    "fqdn": "${machines[9]}"
-                }
-            ], 
-            "name": "master_1"
-        },
-        {
-            "hosts": [
-                {
-                    "fqdn": "${machines[1]}"
-                }
-            ], 
-            "name": "master_2"
-        },
-        {
-            "hosts": [
-                {
-                    "fqdn": "${machines[2]}"
-                }
-            ], 
-            "name": "master_3"
-        },
-        {
-            "hosts": [
-                {
-                    "fqdn": "${machines[3]}"
-                }
-            ], 
-            "name": "master_4"
-        },
-        {
-            "hosts": [
-                { "fqdn": "${machines[4]}" },
-                { "fqdn": "${machines[5]}" },
-                { "fqdn": "${machines[6]}" },
-                { "fqdn": "${machines[7]}" },
-                { "fqdn": "${machines[8]}" }
-            ], 
-            "name": "slave"
-        },
-        {
-            "hosts": [
-                {
-                    "fqdn": "${machines[0]}"
-                }
-            ], 
-            "name": "gateway"
-        }
-    ]
+  "blueprint": "blueprint-phd-multinode-basic",
+  "default_password": "super-secret-password",
+  "host_groups": [
+    {
+      "hosts": [
+        {"fqdn": "ip-172-31-25-233.ec2.internal"}
+      ],
+      "name": "master_2"
+    },
+    {
+      "hosts": [
+        {"fqdn": "ip-172-31-20-103.ec2.internal"}
+      ],
+      "name": "master_1"
+    },
+    {
+      "hosts": [
+        {"fqdn": "ip-172-31-41-173.ec2.internal"},
+        {"fqdn": "ip-172-31-41-174.ec2.internal"},
+        {"fqdn": "ip-172-31-58-7.ec2.internal"},
+        {"fqdn": "ip-172-31-58-8.ec2.internal"}
+      ],
+      "name": "slave"
+    },
+    {
+      "hosts": [
+        {"fqdn": "ip-172-31-58-9.ec2.internal"}
+      ],
+      "name": "gateway"
+    }
+  ]
 }
