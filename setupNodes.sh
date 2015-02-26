@@ -16,13 +16,21 @@ $password
 $password
 EOF
 
-mkfs -t ext4 /dev/xvda
-mkdir /data1
-mount -t ext4 /dev/xvda /data1
-
 mkfs -t ext4 /dev/xvdb
+mkdir /data1
+mount -t ext4 /dev/xvdb /data1
+
+mkfs -t ext4 /dev/xvdc
 mkdir /data2
-mount -t ext4 /dev/xvdb /data2
+mount -t ext4 /dev/xvdc /data2
+
+mkfs -t ext4 /dev/xvdd
+mkdir /data2
+mount -t ext4 /dev/xvdd /data2
+
+mkfs -t ext4 /dev/xvde
+mkdir /data2
+mount -t ext4 /dev/xvde /data2
 
 sed -i 's/SELINUX=[a-z]*/SELINUX=disabled/' /etc/selinux/config
 echo 0 > /selinux/enforce

@@ -18,8 +18,8 @@
     "ManagementNodeInstanceType" : {
       "Description" : "Management Node",
       "Type" : "String",
-      "Default" : "c4.4xlarge",
-      "AllowedValues" : ["c4.4xlarge","c3.4xlarge"],
+      "Default" : "c3.4xlarge",
+      "AllowedValues" : ["c3.4xlarge"],
       "ConstraintDescription" : "must be a valid EC2 instance type."
     },
 
@@ -184,19 +184,19 @@
         "SecurityGroups" : [ {"Ref" : "PHDSecurityGroup"} ],
         "BlockDeviceMappings" : [
          {
-           "DeviceName"  : "/dev/sdb",
+           "DeviceName"  : "/dev/xvdb",
            "VirtualName" : "ephemeral0"
          },
          {
-           "DeviceName"  : "/dev/sdc",
+           "DeviceName"  : "/dev/xvdc",
            "VirtualName" : "ephemeral1"
          },
          {
-           "DeviceName"  : "/dev/sdd",
+           "DeviceName"  : "/dev/xvdd",
            "VirtualName" : "ephemeral2"
          },
          {
-           "DeviceName"  : "/dev/sde",
+           "DeviceName"  : "/dev/xvde",
            "VirtualName" : "ephemeral3"
          }
        ],
@@ -213,7 +213,8 @@
           "# Setup correct file ownership\n",
           "ambari_agent=/etc/ambari-agent/conf/ambari-agent.ini\n",
           "sed -i 's/hostname=.*/hostname=", { "Fn::GetAtt" : [ "ManagementNode", "PrivateDnsName" ]}, "/g' $ambari_agent\n",
-     	  "wget https://github.com/dbbaskette/heffalump/blob/master/setupNodes.sh \n",
+     	  "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setupNodes.sh\n",
+     	  "chmod +x setupNodes.sh \n",
 		  "setupNodes.sh \n",
           "ambari-agent start\n"
 
@@ -226,6 +227,7 @@
       "Properties": {
         "AvailabilityZones": { "Fn::GetAZs": "" },
         "LaunchConfigurationName": { "Ref": "ClusterNodeLaunchConfiguration" },
+        "MinSize": { "Ref": "ClusterNodes" },
         "MaxSize": { "Ref": "ClusterNodes" },
         "Tags" : [{
           "Key"   : "Name",
