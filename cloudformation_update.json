@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
   
-  "Description" : "Simple Cloudformation template used to setup a PHD3.0 cluster.",
+  "Description" : "Cloud Formation for Pivotal HD 3.0 and HAWQ cluster with Ambari",
   
   "Parameters" : {
       
@@ -173,7 +173,7 @@
     },
 
     "ClusterNodeLaunchConfiguration": {  
-      "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "Type": "AWS::EC2::Instance",
       "Metadata" : {
         
       },
@@ -221,23 +221,6 @@
         ]]}}        
       }
     },
-
-    "ClusterNodesAutoScalingGroup": {
-      "Type": "AWS::AutoScaling::AutoScalingGroup",
-      "Properties": {
-        "AvailabilityZones": { "Fn::GetAZs": "" },
-        "LaunchConfigurationName": { "Ref": "ClusterNodeLaunchConfiguration" },
-        "MinSize": { "Ref": "ClusterNodes" },
-        "MaxSize": { "Ref": "ClusterNodes" },
-        "Tags" : [{
-          "Key"   : "Name",
-          "Value" : { "Fn::Join"  : [ "-" , [ { "Ref" : "AWS::StackName" }, "clusternode" ]]},
-          "PropagateAtLaunch" : "true"
-        }]
-      },
-      "DependsOn" : "ManagementNode"
-    },
-
 
     "PHDSecurityGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
