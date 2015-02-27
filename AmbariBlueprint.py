@@ -75,8 +75,11 @@ def buildHostMappingTemplate(hostNames, groups, blueprintName):
 
 def applyBlueprint(url, blueprintName):
     print "ApplyBlueprint"
-    req = requests.post(url + blueprintName + "?validate_topology=false) -d " + blueprintName + ".json",
+    req = requests.post(
+        url + "/blueprints/" + blueprintName + "?validate_topology=false) -d " + blueprintName + ".json",
                         auth=HTTPBasicAuth('admin', 'admin'))
+    req = requests.post(url + "clusters/PHDCluster -d @hotmapping-template.json", auth=HTTPBasicAuth('admin', 'admin'))
+    # "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/clusters/PivCluster -d @hostmapping-template.json >>phd.log\n"
 
 
 if __name__ == '__main__':
@@ -84,7 +87,7 @@ if __name__ == '__main__':
     blueprintName = str(len(hostNames) - 1) + "node-blueprint"
     groups = parseBlueprint(blueprintName)
     buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
-    url = "http://localhost:8080/api/v1/blueprints/"
+    url = "http://localhost:8080/api/v1"
     applyBlueprint(url)
 
     # "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic?validate_topology=false -d @blueprint.json >> phd.log\n",

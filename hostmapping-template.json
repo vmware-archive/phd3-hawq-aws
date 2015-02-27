@@ -1,5 +1,5 @@
 {
-  "blueprint": "blueprint-phd-multinode-basic",
+  "blueprint": "6-node-blueprint",
   "default_password": "super-secret-password",
   "host_groups": [
     {
