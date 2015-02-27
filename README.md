@@ -1,7 +1,6 @@
-Pivotal HD and HAWQ on AWS deployment
+CloudFormation script for deploying Pivotal HD 3.0 and HAWQ on AWS with Ambari blueprints
 
-TO DO :
-AMI - CentOS 6.5 ami-640af40c
+AMI - RHEL 6.5 / CentOS 6.5
 
 EC2 Instance Options(Only 10G Network)
 
@@ -14,3 +13,7 @@ hs1.8xl - vCPUs: 16 | Memory: 117GB | Disk: 24 x 2048
 Root Volume should be 30GB
 
 Upto 4 Instance Storage Volumes - 
+
+TO DO :
+- Create VPC
+- 
