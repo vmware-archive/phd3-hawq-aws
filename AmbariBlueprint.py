@@ -89,5 +89,6 @@ if __name__ == '__main__':
     buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
     url = "http://localhost:8080/api/v1"
     applyBlueprint(url)
+    print "blueprint"
 
     # "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic?validate_topology=false -d @blueprint.json >> phd.log\n",
