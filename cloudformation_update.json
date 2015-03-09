@@ -170,8 +170,6 @@
           "#./replace-host-ip-for-cluster.sh $MY_IP\n",
           "#wget https://s3.amazonaws.com/pivotal-2015/AmbariBlueprint.py \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
-          https
-          :
           //raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py
           "python AmbariBlueprint.py >> phd.log \n",
           "#curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/blueprints/multi-node-hdfs-yarn-blueprint -d @multi-node-hdfs-yarn-blueprint.json\n",
