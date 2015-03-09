@@ -79,6 +79,8 @@ def applyBlueprint(url, blueprintName):
     req = requests.post(
         url + "/blueprints/" + blueprintName + "?validate_topology=false) -d " + blueprintName + ".json",
                         auth=HTTPBasicAuth('admin', 'admin'))
+    print str(url) + "/blueprints/" + str(blueprintName) + "?validate_topology=false) -d " + str(
+        blueprintName) + ".json"
     req = requests.post(url + "clusters/PHDCluster -d @hostmapping-template.json", auth=HTTPBasicAuth('admin', 'admin'))
     # "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/clusters/PivCluster -d @hostmapping-template.json >>phd.log\n"
 
@@ -91,7 +93,7 @@ if __name__ == '__main__':
     buildHostMappingTemplate(hostNames, groups, blueprintName)
 
     url = "http://localhost:8080/api/v1"
-    applyBlueprint(url)
+    applyBlueprint(url, blueprintName)
     print "blueprint"
 
     # "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic?validate_topology=false -d @blueprint.json >> phd.log\n",
