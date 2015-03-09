@@ -18,9 +18,10 @@ def parseAmbariHosts():
                 jsonFound = True
             if jsonFound:
                 jsonString = jsonString + line
-        jsonString = jsonString[:-1]
+                # jsonString = jsonString[:-1]
     for items in json.loads(jsonString)["items"]:
         hostNames.append(items["Hosts"]["host_name"])
+    print hostNames
     return hostNames
 
 
@@ -37,8 +38,8 @@ def parseBlueprint(blueprintName):
 
 def buildHostMappingTemplate(hostNames, groups, blueprintName):
     # Assign Hosts to groups
-
-    template = "{\n\"blueprint\": \"" + blueprintName + "\",\n\"default_password\": \"super-secret-password\",\n\"host_groups\": [\n"
+    template = "{\n\"blueprint\": \"" + str(
+        blueprintName) + "\",\n\"default_password\": \"super-secret-password\",\n\"host_groups\": [\n"
     i = 0
     hostGroup = []
     for group in groups:
@@ -84,9 +85,11 @@ def applyBlueprint(url, blueprintName):
 
 if __name__ == '__main__':
     hostNames = parseAmbariHosts()
-    blueprintName = str(len(hostNames) - 1) + "node-blueprint"
+    blueprintName = str(len(hostNames) - 1) + "-node-blueprint"
     groups = parseBlueprint(blueprintName)
-    buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
+    # buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
+    buildHostMappingTemplate(hostNames, groups, blueprintName)
+
     url = "http://localhost:8080/api/v1"
     applyBlueprint(url)
     print "blueprint"
