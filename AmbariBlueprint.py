@@ -79,7 +79,7 @@ def applyBlueprint(url, blueprintName):
 
     req = requests.post(url + "/blueprints/" + blueprintName + "?validate_topology=false -d " + blueprintName + ".json",
                         auth=HTTPBasicAuth('admin', 'admin'))
-    # req = requests.post(url + "clusters/PHDCluster -d @hostmapping-template.json", auth=HTTPBasicAuth('admin', 'admin'))
+    req = requests.post(url + "clusters/PHDCluster -d @hostmapping-template.json", auth=HTTPBasicAuth('admin', 'admin'))
     # Testing just the blueprint post
 
     # "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/clusters/PivCluster -d @hostmapping-template.json >>phd.log\n"
