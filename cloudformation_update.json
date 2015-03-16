@@ -19,7 +19,7 @@
       "Description" : "Management Node",
       "Type" : "String",
       "Default" : "c3.4xlarge",
-      "AllowedValues" : ["c3.4xlarge"],
+      "AllowedValues" : ["c3.4xlarge","m3.2xlarge"],
       "ConstraintDescription" : "must be a valid EC2 instance type."
     },
 
@@ -27,7 +27,7 @@
       "Description" : "Cluster Node",
       "Type" : "String",
       "Default" : "cc2.8xlarge",
-      "AllowedValues" : ["cc2.8xlarge","cg1.4xlarge","i2.8xlarge","hs1.8xlarge","c3.4xlarge"],
+      "AllowedValues" : ["cc2.8xlarge","cg1.4xlarge","i2.8xlarge","hs1.8xlarge","c3.4xlarge","m3.2xlarge"],
       "ConstraintDescription" : "must be a valid EC2 instance type."
     },
     "SSHLocation" : {
@@ -55,7 +55,8 @@
       "cg1.4xlarge" : { "Arch" : "64HVM" },
 	  "i2.8xlarge" : { "Arch" : "64HVM" },
       "hs1.8xlarge" : { "Arch" : "64HVM" },
-    "c3.4xlarge" : { "Arch" : "64HVM" }
+    "c3.4xlarge" : { "Arch" : "64HVM" },
+    "m3.2xlarge" : { "Arch" : "64HVM" }
 
     },
 
@@ -275,7 +276,7 @@
   
   "Outputs" : {
     "AmbariNode" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "ManagementNode", "PublicDnsName" ]}, ":8080/"]] },
+      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "ManagementNode", "PublicIp" ]}, ":8080/"]] },
       "Description" : "PHD Ambari Host node"
     }
   }
