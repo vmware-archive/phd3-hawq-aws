@@ -1,54 +1,54 @@
 HTTP/1.1 200 OK
-Set-Cookie: AMBARISESSIONID=3xd4xs8uw4wa4evs9tsyi4g2;Path=/
+Set-Cookie: AMBARISESSIONID=n7opuvy3sgu640m7bala94gy;Path=/
 Expires: Thu, 01 Jan 1970 00:00:00 GMT
 Content-Type: text/plain
-Content-Length: 1449
+Content-Length: 1453
 Server: Jetty(7.6.7.v20120910)
 
 {
-  "href" : "http://ip-172-31-25-214.ec2.internal:8080/api/v1/hosts",
+  "href" : "http://ip-172-31-14-196.ec2.internal:8080/api/v1/hosts",
   "items" : [
     {
-      "href" : "http://ip-172-31-25-214.ec2.internal:8080/api/v1/hosts/ip-172-31-20-103.ec2.internal",
+      "href" : "http://ip-172-31-14-196.ec2.internal:8080/api/v1/hosts/ip-172-31-14-196.ec2.internal",
       "Hosts" : {
-        "host_name" : "ip-172-31-20-103.ec2.internal"
+        "host_name" : "ip-172-31-14-196.ec2.internal"
       }
     },
     {
-      "href" : "http://ip-172-31-25-214.ec2.internal:8080/api/v1/hosts/ip-172-31-25-233.ec2.internal",
+      "href" : "http://ip-172-31-14-196.ec2.internal:8080/api/v1/hosts/ip-172-31-16-109.ec2.internal",
       "Hosts" : {
-        "host_name" : "ip-172-31-25-233.ec2.internal"
+        "host_name" : "ip-172-31-16-109.ec2.internal"
       }
     },
     {
-      "href" : "http://ip-172-31-25-214.ec2.internal:8080/api/v1/hosts/ip-172-31-41-173.ec2.internal",
+      "href" : "http://ip-172-31-14-196.ec2.internal:8080/api/v1/hosts/ip-172-31-25-16.ec2.internal",
       "Hosts" : {
-        "host_name" : "ip-172-31-41-173.ec2.internal"
+        "host_name" : "ip-172-31-25-16.ec2.internal"
       }
     },
     {
-      "href" : "http://ip-172-31-25-214.ec2.internal:8080/api/v1/hosts/ip-172-31-41-174.ec2.internal",
+      "href" : "http://ip-172-31-14-196.ec2.internal:8080/api/v1/hosts/ip-172-31-34-98.ec2.internal",
       "Hosts" : {
-        "host_name" : "ip-172-31-41-174.ec2.internal"
+        "host_name" : "ip-172-31-34-98.ec2.internal"
       }
     },
     {
-      "href" : "http://ip-172-31-25-214.ec2.internal:8080/api/v1/hosts/ip-172-31-58-7.ec2.internal",
+      "href" : "http://ip-172-31-14-196.ec2.internal:8080/api/v1/hosts/ip-172-31-34-99.ec2.internal",
       "Hosts" : {
-        "host_name" : "ip-172-31-58-7.ec2.internal"
-        }
-    },
-    {
-      "href" : "http://ip-172-31-25-214.ec2.internal:8080/api/v1/hosts/ip-172-31-58-8.ec2.internal",
-      "Hosts" : {
-        "host_name" : "ip-172-31-58-8.ec2.internal"
+        "host_name" : "ip-172-31-34-99.ec2.internal"
       }
     },
     {
-      "href" : "http://ip-172-31-25-214.ec2.internal:8080/api/v1/hosts/ip-172-31-58-9.ec2.internal",
+      "href" : "http://ip-172-31-14-196.ec2.internal:8080/api/v1/hosts/ip-172-31-52-206.ec2.internal",
       "Hosts" : {
-        "host_name" : "ip-172-31-58-9.ec2.internal"
+        "host_name" : "ip-172-31-52-206.ec2.internal"
+          }
+    },
+    {
+      "href" : "http://ip-172-31-14-196.ec2.internal:8080/api/v1/hosts/ip-172-31-57-60.ec2.internal",
+      "Hosts" : {
+        "host_name" : "ip-172-31-57-60.ec2.internal"
       }
     }
   ]
-}}
+}
