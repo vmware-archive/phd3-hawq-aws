@@ -46,7 +46,9 @@ def downloadSoftware(key, fileName):
 def getSoftware(awsKey, secretKey, fileType):
     bucketName = getBucketName("bucket")
     fileNames = []
+    # conn = boto.connect_s3(aws_access_key_id=awsKey, aws_secret_access_key=secretKey)
     conn = boto.connect_s3(aws_access_key_id=awsKey, aws_secret_access_key=secretKey)
+
     pool = ThreadPool(10)
     if not os.path.exists(baseDir):
         os.makedirs(baseDir)
@@ -100,9 +102,9 @@ def cliParse():
     parser = argparse.ArgumentParser(description='Amazon S3 Download')
     subparsers = parser.add_subparsers(help='sub-command help', dest="subparser_name")
     parser_get = subparsers.add_parser("get", help="Get a file from S3")
-    parser_get.add_argument("--key", dest='accessKey', action="store", help="Your access key", required=True)
-    parser_get.add_argument("--secret", dest='secretKey', action="store", help="Your Secret key", required=True)
-    parser_get.add_argument("--file", dest='fileType', action="store", help="File to Download", required=True)
+    parser_get.add_argument("--key", dest='accessKey', action="store", help="Your access key", required=False)
+    parser_get.add_argument("--secret", dest='secretKey', action="store", help="Your Secret key", required=False)
+    parser_get.add_argument("--file", dest='fileType', action="store", help="File to Download", required=False)
 
     args = parser.parse_args()
     return args
