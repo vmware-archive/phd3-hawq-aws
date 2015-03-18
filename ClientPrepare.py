@@ -11,20 +11,20 @@ def getRepo(awsKey, secretKey, stack):
     ambariRepo = "ambari.repo"
     bucketName = stack + "-" + ambariBucket
     conn = boto.connect_s3(aws_access_key_id=awsKey, aws_secret_access_key=secretKey)
-    noBucket = True
+    bucketExists = False
 
-    while noBucket:
+    while not bucketExists:
         try:
             bucket = conn.get_bucket(bucketName)
-            noBucket = False
+            bucketExists = False
         except Exception as e:
             pass
-    bucketEmpty = True
-    while bucketEmpty:
+    fileExists = False
+    while not fileExists:
         try:
             key = bucket.get_key(ambariRepo)
             key.get_contents_to_filename("/etc/yum.repos.d/" + ambariRepo)
-            bucketEmpty = False
+            fileExists = False
         except Exception as e:
             pass
     conn.close()
