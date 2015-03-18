@@ -20,7 +20,6 @@ from simplethreads.ThreadPool import ThreadPool
 import yum
 
 
-S3Location = "http://s3.amazonaws.com/"
 baseDir = "/opt/phd3/software/"
 ambariBucket = "ambari-repo"
 
