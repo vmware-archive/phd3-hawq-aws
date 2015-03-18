@@ -66,7 +66,7 @@ def createRepo(fileNames):
     yb = yum.YumBase()
     inst = yb.rpmdb.returnPackages()
     installed = [x.name for x in inst]
-    packages = ['httpd', 'createrepo']
+    packages = ['httpd']
 
     for package in packages:
         if package in installed:
