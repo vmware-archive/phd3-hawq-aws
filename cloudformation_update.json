@@ -104,7 +104,7 @@
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setup.py \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PHD3-Installer.py \n",
           "python setup.py install \n",
-          "python PHD3-Installer.py \n",
+          "python PHD3-Installer.py get\n",
 
 		  
       	  "chkconfig iptables off \n",
@@ -150,13 +150,12 @@
           
           "#wget https://github.com/varunrao/PHD-deployment/raw/master/replace-host-ip-for-cluster.sh \n",
           "wget https://s3.amazonaws.com/pivotal-2015/replace-host-ip-for-cluster.sh \n",
-          
-          "wget https://s3.amazonaws.com/hawq-ambari-assets/hawq-plugin-1.0-30.tar.gz \n",
-          "wget https://s3.amazonaws.com/hawq-ambari-assets/PADS-1.3.0.0-11698.tar.gz --no-check-certificate \n",
-		  "tar xvfz hawq-plugin-1.0-30.tar.gz >> phd.log \n",
-		  "tar xvfz PADS-1.3.0.0-11698.tar.gz >> phd.log \n",
-		  "yum install -y ./hawq-plugin-1.0-30/hawq-plugin-1.0-30.noarch.rpm >> phd.log\n",
-		  "/PADS-1.3.0.0-11698/setup_repo.sh >> phd.log \n",
+          "#wget https://s3.amazonaws.com/hawq-ambari-assets/hawq-plugin-1.0-30.tar.gz \n",
+          "#wget https://s3.amazonaws.com/hawq-ambari-assets/PADS-1.3.0.0-11698.tar.gz --no-check-certificate \n",
+          "#tar xvfz hawq-plugin-1.0-30.tar.gz >> phd.log \n",
+          "#tar xvfz PADS-1.3.0.0-11698.tar.gz >> phd.log \n",
+          "#yum install -y ./hawq-plugin-1.0-30/hawq-plugin-1.0-30.noarch.rpm >> phd.log\n",
+          "#/PADS-1.3.0.0-11698/setup_repo.sh >> phd.log \n",
 
 		  "ambari-server start >> phd.log \n",
 
@@ -168,8 +167,8 @@
           "#chmod +x replace-host-ip-for-cluster.sh\n",
           "#./replace-host-ip-for-cluster.sh $MY_IP\n",
           "#wget https://s3.amazonaws.com/pivotal-2015/AmbariBlueprint.py \n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
-          "python AmbariBlueprint.py >> phd.log \n",
+          "#wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
+          "#python AmbariBlueprint.py >> phd.log \n",
           "#curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/blueprints/multi-node-hdfs-yarn-blueprint -d @multi-node-hdfs-yarn-blueprint.json\n",
           "#curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic?validate_topology=false -d @blueprint.json >> phd.log\n",
 
