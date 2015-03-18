@@ -105,7 +105,7 @@
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PHD3-RepoPrepare.py \n",
           "python setup.py install \n",
-          "python PHD3-RepoPrepare.py get --key=ADDKEY --secret=ADDSECRETKEY\n",
+          "python PHD3-RepoPrepare.py get --key=ADDKEY --secret=ADDSECRETKEY \n",
 
 		  
       	  "chkconfig iptables off \n",
