@@ -84,29 +84,27 @@
         }],
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
-
-
- 			"yum -y install ant\n",
-		  "yum -y install createrepo \n",
+          "yum -y install ant\n",
+          "#yum -y install createrepo \n",
           "yum -y install git\n",
-          "yum -y install httpd\n",
-          "yum -y install python-requests \n",
+          "#yum -y install httpd\n",
+          "#yum -y install python-requests \n",
 
 		  "yum -y remove *openjdk \n",      
           "# Setup correct file ownership\n",
           "#wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",
-
-      	  "wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/latest/1.7.1/ambari.repo -O /etc/yum.repos.d/ambari.repo \n",
+          "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/latest/1.7.1/ambari.repo -O /etc/yum.repos.d/ambari.repo \n",
       	  "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/BUILDS/1.7.1-33/AMBARI.1.7.1-1.7.1.33-centos6.tar.gz \n",
 		  "#tar xvfz AMBARI.1.7.1-1.7.1.33-centos6.tar.gz \n",
-		  
-		  	 
-      	  
-      	  "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.rpm \n",
+          "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.rpm \n",
       	  "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.tar.gz \n",
 		  "wget --no-check-certificate http://public-repo-1.hortonworks.com/ARTIFACTS/UnlimitedJCEPolicyJDK7.zip \n",
 		  "yum -y install jdk-7u67-linux-x64.rpm \n",
-		  
+          "#TRY NEW PYTHON VERSION \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setup.py \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PHD3-Installer.py \n",
+          "python setup.py install \n",
+          "python PHD3-Installer.py \n",
 
 		  
       	  "chkconfig iptables off \n",
@@ -216,8 +214,7 @@
           "#!/bin/bash -v\n",
           "# Setup correct file ownership\n",
           "#wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",
-      	  
-      	  "wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/latest/1.7.1/ambari.repo -O /etc/yum.repos.d/ambari.repo \n",
+          "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/latest/1.7.1/ambari.repo -O /etc/yum.repos.d/ambari.repo \n",
 		  "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/BUILDS/1.7.1-33/AMBARI.1.7.1-1.7.1.33-centos6.tar.gz \n",
           "yum install -y ambari-agent\n",
 
