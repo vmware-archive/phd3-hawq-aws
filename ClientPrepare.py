@@ -16,7 +16,7 @@ def getRepo(awsKey, secretKey, stack):
     while not bucketExists:
         try:
             bucket = conn.get_bucket(bucketName)
-            bucketExists = False
+            bucketExists = True
         except Exception as e:
             pass
     fileExists = False
@@ -24,7 +24,7 @@ def getRepo(awsKey, secretKey, stack):
         try:
             key = bucket.get_key(ambariRepo)
             key.get_contents_to_filename("/etc/yum.repos.d/" + ambariRepo)
-            fileExists = False
+            fileExists = True
         except Exception as e:
             pass
     conn.close()
