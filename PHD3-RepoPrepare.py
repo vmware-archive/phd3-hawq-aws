@@ -36,10 +36,8 @@ def getBucketName(fileType):
 def downloadSoftware(key, fileName):
     try:
         key.get_contents_to_filename(baseDir + fileName)
-        return 0
     except Exception as e:
-        # key.get_contents_to_filename("/tmp/"+fileName)
-        return -1
+        pass
 
 
 def getSoftware(awsKey, secretKey):
@@ -64,7 +62,7 @@ def getSoftware(awsKey, secretKey):
     return fileNames
 
 
-def createRepo(fileNames):
+def createRepo(fileNames, logFile):
     yb = yum.YumBase()
     inst = yb.rpmdb.returnPackages()
     installed = [x.name for x in inst]
@@ -86,24 +84,30 @@ def createRepo(fileNames):
     os.system("service httpd restart")
 
     for fileName in fileNames:
-        print "Create Repo for " + fileName
-        tar = tarfile.open(baseDir + fileName, "r:gz")
-        tar.extractall(baseDir)
-        tar.close()
-        repoPath = baseDir + fileName[:-7]
-        print repoPath
-        os.system(repoPath + "/setup_repo.sh")
+        try:
+            tar = tarfile.open(baseDir + fileName, "r:gz")
+            tar.extractall(baseDir)
+            tar.close()
+            repoPath = baseDir + fileName[:-7]
+            os.system(repoPath + "/setup_repo.sh")
+        except Exception as e:
+            logFile.write(e)
 
 
-def uploadRepo(awsKey, secretKey, stack):
+def uploadRepo(awsKey, secretKey, stack, logFile):
     bucketName = stack + "-" + ambariBucket
-    conn = boto.connect_s3(aws_access_key_id=awsKey, aws_secret_access_key=secretKey)
-    conn.create_bucket(bucketName, location=Location.DEFAULT)
-    bucket = conn.get_bucket(bucketName)
-    k = Key(bucket)
-    k.key = 'ambari.repo'
-    k.set_contents_from_filename("/etc/yum.repos.d/ambari.repo")
-    k.set_canned_acl('public-read')
+    try:
+        conn = boto.connect_s3(aws_access_key_id=awsKey, aws_secret_access_key=secretKey)
+        conn.create_bucket(bucketName, location=Location.DEFAULT)
+        bucket = conn.get_bucket(bucketName)
+        k = Key(bucket)
+        k.key = 'ambari.repo'
+        k.set_contents_from_filename("/etc/yum.repos.d/ambari.repo")
+        k.set_canned_acl('public-read')
+    except Exception as e:
+        logFile.write(e)
+
+
 
 
 
@@ -115,15 +119,15 @@ def cliParse():
     parser_get.add_argument("--key", dest='accessKey', action="store", help="Your access key", required=False)
     parser_get.add_argument("--secret", dest='secretKey', action="store", help="Your Secret key", required=False)
     parser_get.add_argument("--stack", dest='stack', action="store", help="StackName", required=False)
-
     args = parser.parse_args()
     return args
 
 
 def prepareEnv(args):
+    logFile = open("repo-prepare.log", "w+")
     fileNames = getSoftware(args.accessKey, args.secretKey)
-    createRepo(fileNames)
-    uploadRepo(args.accessKey, args.secretKey, args.stack)
+    createRepo(fileNames, logFile)
+    uploadRepo(args.accessKey, args.secretKey, args.stack, logFile)
 
 
 if __name__ == '__main__':
