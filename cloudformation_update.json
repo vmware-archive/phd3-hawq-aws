@@ -219,25 +219,14 @@
           "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/latest/1.7.1/ambari.repo -O /etc/yum.repos.d/ambari.repo \n",
 		  "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/BUILDS/1.7.1-33/AMBARI.1.7.1-1.7.1.33-centos6.tar.gz \n",
           "yum install -y ambari-agent\n",
-          "# Setup correct file ownership\n",
-          "echo 'GETATTR' >>phd.log \n",
-          "echo ",
-          {
-            "Fn::GetAtt": [
-              "ManagementNode",
-              "PrivateDnsName"
-            ]
-          },
-          ">>phd.log \n",
-          "scp ",
-          {
-            "Fn::GetAtt": [
-              "ManagementNode",
-              "PrivateDnsName"
-            ]
-          },
-          ":/etc/yum.repos.d/ambari.repo /etc/yum.repos.d >>phd.log\n",
+          "# Get Repo \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setup.py \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/ClientPrepare.py \n",
+          "python setup.py install \n",
+          "python ClientPrepare.py get --key=ADDKEY --secret=ADDSECRETKEY --stack=$stack_name\n",
 
+          
           "ambari_agent=/etc/ambari-agent/conf/ambari-agent.ini\n",
           "sed -i 's/hostname=.*/hostname=", { "Fn::GetAtt" : [ "ManagementNode", "PrivateDnsName" ]}, "/g' $ambari_agent\n",
      	  "wget https://s3.amazonaws.com/pivotal-2015/setupNodes.sh\n",
