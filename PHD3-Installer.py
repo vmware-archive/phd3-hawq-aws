@@ -16,9 +16,12 @@ import boto
 import boto.s3.connection
 from simplethreads.ThreadPool import ThreadPool
 import yum
+import requests
+from requests.auth import HTTPBasicAuth
 
 
 S3Location = "http://s3.amazonaws.com/"
+baseDir = "/opt/phd3/software/"
 
 
 def getBucketName(fileType):
@@ -31,8 +34,9 @@ def getBucketName(fileType):
 
 
 def downloadSoftware(key, fileName):
+
     try:
-        key.get_contents_to_filename("/tmp/" + fileName)
+        key.get_contents_to_filename(baseDir + fileName)
         return 0
     except Exception as e:
         # key.get_contents_to_filename("/tmp/"+fileName)
@@ -44,7 +48,8 @@ def getSoftware(awsKey, secretKey, fileType):
     fileNames = []
     conn = boto.connect_s3(aws_access_key_id=awsKey, aws_secret_access_key=secretKey)
     pool = ThreadPool(10)
-
+    if not os.path.exists(baseDir):
+        os.makedirs(baseDir)
     if conn.get_bucket(bucketName) is None:
         print "BUCKET DOES NOT EXIST!"
         exit(0)
@@ -52,12 +57,10 @@ def getSoftware(awsKey, secretKey, fileType):
         bucket = conn.get_bucket(bucketName)
         for key in bucket.get_all_keys():
             fileName = str(key).split(",")[1][:-1]
-            print "Filename:" + fileName
             pool.process(downloadSoftware, key, fileName)
             fileNames.append(fileName)
     pool.shutdown()
     conn.close()
-
     return fileNames
 
 
@@ -84,10 +87,10 @@ def createRepo(fileNames):
 
     for fileName in fileNames:
         print "Create Repo for " + fileName
-        tar = tarfile.open("/tmp/" + fileName, "r:gz")
-        tar.extractall("/tmp")
+        tar = tarfile.open(baseDir + fileName, "r:gz")
+        tar.extractall(baseDir)
         tar.close()
-        repoPath = "/tmp/" + fileName[:-7]
+        repoPath = baseDir + fileName[:-7]
         print repoPath
         os.system(repoPath + "/setup_repo.sh")
 
@@ -105,14 +108,107 @@ def cliParse():
     return args
 
 
+def parseAmbariHosts():
+    # Parse ambari-hosts.txt and pull out agent hostnames
+
+    jsonString = ""
+    jsonFound = False
+    hostNames = []
+    with open("./ambari-hosts.txt", "r") as hostsFile:
+        for line in hostsFile:
+            if "{" in line:
+                jsonFound = True
+            if jsonFound:
+                jsonString = jsonString + line
+                # jsonString = jsonString[:-1]
+    for items in json.loads(jsonString)["items"]:
+        hostNames.append(items["Hosts"]["host_name"])
+    print hostNames
+    return hostNames
+
+
+def parseBlueprint(blueprintName):
+    # Parse Blueprint to pull out Groups and # hosts per
+
+    groupsArray = []
+    with open(blueprintName + ".json", "r") as blueprintFile:
+        bluePrint = json.load(blueprintFile)
+        for groups in bluePrint["host_groups"]:
+            groupsArray.append(groups["cardinality"] + ":" + groups["name"])
+        return groupsArray
+
+
+def buildHostMappingTemplate(hostNames, groups, blueprintName):
+    # Assign Hosts to groups
+    template = "{\n\"blueprint\": \"" + str(
+        blueprintName) + "\",\n\"default_password\": \"super-secret-password\",\n\"host_groups\": [\n"
+    i = 0
+    hostGroup = []
+    for group in groups:
+        for hostCount in range(int(group.split(":")[0])):
+            hostInfo = {}
+            hostInfo["hostname"] = hostNames[i]
+            hostInfo["group"] = group.split(":")[1]
+            hostGroup.append(hostInfo)
+            i += 1
+    groupInfo = {}
+    for host in hostGroup:
+        try:
+            currentVal = groupInfo[host["group"]]
+            groupInfo[host["group"]] = currentVal + ":" + host["hostname"]
+        except:
+            currentVal = ""
+            groupInfo[host["group"]] = host["hostname"]
+
+    hostsString = ""
+    with open("./hostmapping-template.json", "w") as templateFile:
+        templateFile.write(template)
+        for group in groupInfo:
+            hostsString = hostsString + "{\n\"hosts\": [\n "
+            hosts = str(groupInfo[group]).split(":")
+            for host in hosts:
+                hostsString = hostsString + "{\"fqdn\": \"" + host + "\"},"
+            hostsString = hostsString[:-1] + "\n"
+            hostsString = hostsString + "],"
+
+            hostsString = hostsString + "\"name\": " + "\"" + group + "\"}\n ,"
+        hostsString = hostsString[:-1] + "\n]\n}"
+        templateFile.write(hostsString)
+
+
+def applyBlueprint(url, blueprintName):
+    print "ApplyBlueprint"
+    print str(url) + "/blueprints/" + str(blueprintName) + "?validate_topology=false -d " + str(blueprintName) + ".json"
+
+    req = requests.post(url + "/blueprints/" + blueprintName + "?validate_topology=false -d " + blueprintName + ".json",
+                        auth=HTTPBasicAuth('admin', 'admin'))
+    preq = requests.post(url + "clusters/PHDCluster -d @hostmapping-template.json",
+                         auth=HTTPBasicAuth('admin', 'admin'))
+    # Testing just the blueprint post
+
+    # "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/clusters/PivCluster -d @hostmapping-template.json >>phd.log\n"
+    # "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic?validate_topology=false -d @blueprint.json >> phd.log\n",
+
+
+
 def prepareEnv(args):
     fileNames = getSoftware(args.accessKey, args.secretKey, args.fileType)
     createRepo(fileNames)
 
 
+def install():
+    print "Attempting Install of Ambari"
+    hostNames = parseAmbariHosts()
+    blueprintName = str(len(hostNames) - 1) + "-node-blueprint"
+    groups = parseBlueprint(blueprintName)
+    buildHostMappingTemplate(hostNames, groups, blueprintName)
+    url = "http://localhost:8080/api/v1"
+    applyBlueprint(url, blueprintName)
+
 if __name__ == '__main__':
     print "PHD3 Installer"
     prepareEnv(cliParse())
+    install()
 
 
 
