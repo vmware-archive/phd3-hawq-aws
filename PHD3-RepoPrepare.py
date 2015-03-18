@@ -14,12 +14,15 @@ import os
 
 import boto
 import boto.s3.connection
+from boto.s3.connection import Location
+from boto.s3.key import Key
 from simplethreads.ThreadPool import ThreadPool
 import yum
 
 
 S3Location = "http://s3.amazonaws.com/"
 baseDir = "/opt/phd3/software/"
+ambariBucket = "ambari-repo"
 
 
 def getBucketName(fileType):
@@ -40,7 +43,7 @@ def downloadSoftware(key, fileName):
         return -1
 
 
-def getSoftware(awsKey, secretKey, fileType):
+def getSoftware(awsKey, secretKey):
     bucketName = getBucketName("bucket")
     fileNames = []
     conn = boto.connect_s3(aws_access_key_id=awsKey, aws_secret_access_key=secretKey)
@@ -93,6 +96,18 @@ def createRepo(fileNames):
         os.system(repoPath + "/setup_repo.sh")
 
 
+def uploadRepo(awsKey, secretKey, stack):
+    bucketName = stack + "-" + ambariBucket
+    conn = boto.connect_s3(aws_access_key_id=awsKey, aws_secret_access_key=secretKey)
+    conn.create_bucket(bucketName, location=Location.DEFAULT)
+    bucket = conn.get_bucket(bucketName)
+    k = Key(bucket)
+    k.key = 'ambari.repo'
+    k.set_contents_from_filename("/etc/yum.repos.d/ambari.repo")
+    k.set_canned_acl('public-read')
+
+
+
 def cliParse():
     VALID_ACTION = ["get"]
     parser = argparse.ArgumentParser(description='Amazon S3 Download')
@@ -100,15 +115,16 @@ def cliParse():
     parser_get = subparsers.add_parser("get", help="Get a file from S3")
     parser_get.add_argument("--key", dest='accessKey', action="store", help="Your access key", required=False)
     parser_get.add_argument("--secret", dest='secretKey', action="store", help="Your Secret key", required=False)
-    parser_get.add_argument("--file", dest='fileType', action="store", help="File to Download", required=False)
+    parser_get.add_argument("--stack", dest='stack', action="store", help="StackName", required=False)
 
     args = parser.parse_args()
     return args
 
 
 def prepareEnv(args):
-    fileNames = getSoftware(args.accessKey, args.secretKey, args.fileType)
+    fileNames = getSoftware(args.accessKey, args.secretKey)
     createRepo(fileNames)
+    uploadRepo(args.accessKey, args.secretKey, args.stack)
 
 
 if __name__ == '__main__':

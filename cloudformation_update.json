@@ -89,6 +89,11 @@
           "yum -y install git\n",
           "#yum -y install httpd\n",
           "#yum -y install python-requests \n",
+          "stack_name=",
+          {"Ref": "AWS::StackName"},
+          "\n",
+
+
 
 		  "yum -y remove *openjdk \n",      
           "# Setup correct file ownership\n",
@@ -105,7 +110,7 @@
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PHD3-RepoPrepare.py \n",
           "python setup.py install \n",
-          "python PHD3-RepoPrepare.py get --key=ADDKEY --secret=ADDSECRETKEY \n",
+          "python PHD3-RepoPrepare.py get --key=ADDKEY --secret=ADDSECRETKEY --stack=$stack_name\n",
 
 		  
       	  "chkconfig iptables off \n",
@@ -133,6 +138,7 @@
           "MY_IP=`(curl http://169.254.169.254/latest/meta-data/local-hostname)`\n",
 
           "number_of_slaves=", { "Ref" : "ClusterNodes" } , "\n",
+
 
           "#wget https://github.com/varunrao/PHD-deployment/raw/master/multi-node-hdfs-yarn-blueprint.json\n",
           "wget https://s3.amazonaws.com/pivotal-2015/6-node-blueprint.json \n",
@@ -206,13 +212,30 @@
         "KeyName"        : { "Ref" : "KeyName" },
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
+
           "# Setup correct file ownership\n",
           "#wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",
           "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/latest/1.7.1/ambari.repo -O /etc/yum.repos.d/ambari.repo \n",
 		  "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/BUILDS/1.7.1-33/AMBARI.1.7.1-1.7.1.33-centos6.tar.gz \n",
           "yum install -y ambari-agent\n",
+          "stack_name=",
+          {"Ref": "AWS::StackName"},
+          "\n",
+          "bucket = $stack_name + 'ambari-repo' \n",
+
+
 
           "# Setup correct file ownership\n",
+          "mgmt_node=",
+          {
+            "Fn::GetAtt": [
+              "ManagementNode",
+              "PrivateDnsName"
+            ]
+          },
+          "\n",
+          "scp $mgmt_node:/etc/yum.repos.d/ambari.repo /etc/yum.repos.d \n",
+
           "ambari_agent=/etc/ambari-agent/conf/ambari-agent.ini\n",
           "sed -i 's/hostname=.*/hostname=", { "Fn::GetAtt" : [ "ManagementNode", "PrivateDnsName" ]}, "/g' $ambari_agent\n",
      	  "wget https://s3.amazonaws.com/pivotal-2015/setupNodes.sh\n",
