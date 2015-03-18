@@ -84,19 +84,6 @@
         }],
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
-          "# LOGGING ENABLED \n",
-          "#!/bin/bash –v \n",
-          "yum update -y aws-cfn-bootstrap\n",
-          "/opt/aws/bin/cfn-init ",
-          " --stack ",
-          {"Ref": "AWS::StackName"},
-          " --resource WebServer ",
-          " --region ",
-          {"Ref": "AWS::Region"},
-          "\n",
-          "/opt/aws/bin/cfn-signal -e $? '",
-          {"Ref": "WaitHandle"},
-          "'\n",
 
 
           "yum -y install ant\n",
@@ -225,19 +212,6 @@
         "KeyName"        : { "Ref" : "KeyName" },
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
-          "# LOGGING ENABLED \n",
-          "#!/bin/bash –v \n",
-          "yum update -y aws-cfn-bootstrap\n",
-          "/opt/aws/bin/cfn-init ",
-          " --stack ",
-          {"Ref": "AWS::StackName"},
-          " --resource WebServer ",
-          " --region ",
-          {"Ref": "AWS::Region"},
-          "\n",
-          "/opt/aws/bin/cfn-signal -e $? '",
-          {"Ref": "WaitHandle"},
-          "'\n",
 
 
           "# Setup correct file ownership\n",
@@ -246,6 +220,15 @@
 		  "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/BUILDS/1.7.1-33/AMBARI.1.7.1-1.7.1.33-centos6.tar.gz \n",
           "yum install -y ambari-agent\n",
           "# Setup correct file ownership\n",
+          "echo 'GETATTR' >>phd.log \n",
+          "echo ",
+          {
+            "Fn::GetAtt": [
+              "ManagementNode",
+              "PrivateDnsName"
+            ]
+          },
+          ">>phd.log \n",
           "scp ",
           {
             "Fn::GetAtt": [
