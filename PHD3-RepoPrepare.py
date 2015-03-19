@@ -20,7 +20,7 @@ from simplethreads.ThreadPool import ThreadPool
 import yum
 
 
-baseDir = "/opt/phd3/software/"
+baseDir = "/mnt/phd3/software/"
 ambariBucket = "ambari-repo"
 
 

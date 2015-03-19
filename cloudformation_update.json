@@ -77,6 +77,14 @@
                           { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "ManagementNodeInstanceType" }, "Arch" ] } ] },
         "InstanceType"   : { "Ref" : "ManagementNodeInstanceType" },
         "SecurityGroups" : [ {"Ref" : "PHDSecurityGroup"} ],
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/xvdb",
+            "VirtualName": "ephemeral0"
+          }
+        ],
+
+
         "KeyName"        : { "Ref" : "KeyName" },
         "Tags" : [{
           "Key"   : "Name",
@@ -100,7 +108,6 @@
       	  "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.tar.gz \n",
 		  "wget --no-check-certificate http://public-repo-1.hortonworks.com/ARTIFACTS/UnlimitedJCEPolicyJDK7.zip \n",
 		  "yum -y install jdk-7u67-linux-x64.rpm \n",
-          "#TRY NEW PYTHON VERSION \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setup.py \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PHD3-RepoPrepare.py \n",
