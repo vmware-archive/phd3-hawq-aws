@@ -91,22 +91,19 @@
         }],
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
-          "#yum -y install ant\n",
-          "#yum -y install git\n",
+
           "stack_name=",
           {"Ref": "AWS::StackName"},
           "\n",
           "yum clean all \n",
 		  "yum -y remove *openjdk \n",      
-          "# Setup correct file ownership\n",
-          "#wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",
-          "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/latest/1.7.1/ambari.repo -O /etc/yum.repos.d/ambari.repo \n",
-      	  "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/BUILDS/1.7.1-33/AMBARI.1.7.1-1.7.1.33-centos6.tar.gz \n",
-		  "#tar xvfz AMBARI.1.7.1-1.7.1.33-centos6.tar.gz \n",
+
           "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.rpm \n",
       	  "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.tar.gz \n",
 		  "wget --no-check-certificate http://public-repo-1.hortonworks.com/ARTIFACTS/UnlimitedJCEPolicyJDK7.zip \n",
+
 		  "yum -y install jdk-7u67-linux-x64.rpm \n",
+
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setup.py \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PHD3-RepoPrepare.py \n",
@@ -125,11 +122,7 @@
 		  "mv jdk-7u67-linux-x64.tar.gz /var/lib/ambari-server/resources/ \n",
 		  "mv UnlimitedJCEPolicyJDK7.zip /var/lib/ambari-server/resources/ \n",
 
-
-
           "ambari-server setup -s\n",
-          "#ambari-server start\n",
-
           "yum install -y ambari-agent\n",
 
           "ambari-agent start\n",
@@ -139,44 +132,19 @@
           "MY_IP=`(curl http://169.254.169.254/latest/meta-data/local-hostname)`\n",
 
           "number_of_slaves=", { "Ref" : "ClusterNodes" } , "\n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/6-node-blueprint.json \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/wait-for-slaves.sh \n",
 
 
-          "#wget https://github.com/varunrao/PHD-deployment/raw/master/multi-node-hdfs-yarn-blueprint.json\n",
-          "wget https://s3.amazonaws.com/pivotal-2015/6-node-blueprint.json \n",
-
-          "#wget https://github.com/varunrao/PHD-deployment/raw/master/blueprint-cluster-definition.json\n",
-          "#wget https://s3.amazonaws.com/pivotal-2015/hostmapping-template.json \n",
-
-          "#wget https://github.com/varunrao/PHD-deployment/raw/master/wait-for-slaves.sh\n",
-          "wget https://s3.amazonaws.com/pivotal-2015/wait-for-slaves.sh \n",
-          
-          "#wget https://github.com/varunrao/PHD-deployment/raw/master/replace-host-ip-for-cluster.sh \n",
-          "wget https://s3.amazonaws.com/pivotal-2015/replace-host-ip-for-cluster.sh \n",
-          "#wget https://s3.amazonaws.com/phd3/hawq-plugin-1.0-30.tar.gz \n",
-          "#wget https://s3.amazonaws.com/phd3/PADS-1.3.0.0-11698.tar.gz --no-check-certificate \n",
-          "#tar xvfz hawq-plugin-1.0-30.tar.gz >> phd.log \n",
-          "#tar xvfz PADS-1.3.0.0-11698.tar.gz >> phd.log \n",
           "yum install -y hawq-plugin >> phd.log\n",
-          "#/PADS-1.3.0.0-11698/setup_repo.sh >> phd.log \n",
 
 		  "ambari-server start >> phd.log \n",
 
 
-
           "chmod +x wait-for-slaves.sh\n",
-
           "./wait-for-slaves.sh $MY_IP $number_of_slaves\n",
-          "#chmod +x replace-host-ip-for-cluster.sh\n",
-          "#./replace-host-ip-for-cluster.sh $MY_IP\n",
-          "#wget https://s3.amazonaws.com/pivotal-2015/AmbariBlueprint.py \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
-          "python AmbariBlueprint.py >> phd.log \n",
-          "#curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/blueprints/multi-node-hdfs-yarn-blueprint -d @multi-node-hdfs-yarn-blueprint.json\n",
-          "#curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic?validate_topology=false -d @blueprint.json >> phd.log\n",
-
-
-          "#curl -u admin:admin -H 'X-Requested-By:Varun' -X POST http://$MY_IP:8080/api/v1/clusters/MyCluster -d @blueprint-cluster-definition.json\n",
-          "#curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/clusters/PivCluster -d @hostmapping-template.json >>phd.log\n"
+          "python AmbariBlueprint.py >> phd.log \n"
 
         ]]}}        
       }
@@ -217,11 +185,6 @@
           {"Ref": "AWS::StackName"},
           "\n",
 
-          "# Setup correct file ownership\n",
-          "#wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",
-          "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/latest/1.7.1/ambari.repo -O /etc/yum.repos.d/ambari.repo \n",
-		  "#wget http://s3.amazonaws.com/phd.hortonworks.com/ambari-phd/centos6/1.x/BUILDS/1.7.1-33/AMBARI.1.7.1-1.7.1.33-centos6.tar.gz \n",
-          "# Get Repo \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setup.py \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/ClientPrepare.py \n",
@@ -230,7 +193,7 @@
           "yum install -y ambari-agent\n",
           "ambari_agent=/etc/ambari-agent/conf/ambari-agent.ini\n",
           "sed -i 's/hostname=.*/hostname=", { "Fn::GetAtt" : [ "ManagementNode", "PrivateDnsName" ]}, "/g' $ambari_agent\n",
-     	  "wget https://s3.amazonaws.com/pivotal-2015/setupNodes.sh\n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setupNodes.sh\n",
      	  "chmod +x setupNodes.sh \n",
 		  "./setupNodes.sh >> phd_disks.log \n",
           "ambari-agent start\n"

@@ -11,8 +11,8 @@
             "components": [
                 { "name": "NAMENODE" }, 
                 { "name": "PXF" },
-                { "name": "ZOOKEEPER_SERVER" }, 
-                { "name": "HBASE_MASTER" }, 
+                { "name": "ZOOKEEPER_SERVER" },
+              {"name": "HBASE_MASTER"},
                 { "name": "GANGLIA_SERVER" }, 
                 { "name": "HDFS_CLIENT" }, 
                 { "name": "YARN_CLIENT" },
