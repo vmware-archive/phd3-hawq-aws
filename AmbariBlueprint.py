@@ -82,6 +82,9 @@ def applyBlueprint(url, blueprintName):
                         auth=HTTPBasicAuth('admin', 'admin'))
     preq = requests.post(url + "clusters/PHDCluster -d @hostmapping-template.json",
                          auth=HTTPBasicAuth('admin', 'admin'))
+
+    print req
+    print preq
     # Testing just the blueprint post
 
     # "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/clusters/PivCluster -d @hostmapping-template.json >>phd.log\n"
