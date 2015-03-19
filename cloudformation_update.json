@@ -64,8 +64,7 @@
       "us-east-1"      : {"64HVM" : "ami-1293e87a" }
     }
   },
-    
-  "Resources" : {     
+  "Resources": {
       
     "ManagementNode": {  
       "Type": "AWS::EC2::Instance",
