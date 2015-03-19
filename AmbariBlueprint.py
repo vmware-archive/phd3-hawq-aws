@@ -85,6 +85,8 @@ def applyBlueprint(url, blueprintName):
     req2 = requests.post(url=postURL2, auth=auth, headers=headers)
     print postURL
     print req.status_code
+    print req.headers
+    print req
     print req.url
     print req.text
     print req.raw
