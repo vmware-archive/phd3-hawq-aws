@@ -146,11 +146,11 @@
           
           "#wget https://github.com/varunrao/PHD-deployment/raw/master/replace-host-ip-for-cluster.sh \n",
           "wget https://s3.amazonaws.com/pivotal-2015/replace-host-ip-for-cluster.sh \n",
-          "#wget https://s3.amazonaws.com/hawq-ambari-assets/hawq-plugin-1.0-30.tar.gz \n",
-          "#wget https://s3.amazonaws.com/hawq-ambari-assets/PADS-1.3.0.0-11698.tar.gz --no-check-certificate \n",
+          "#wget https://s3.amazonaws.com/phd3/hawq-plugin-1.0-30.tar.gz \n",
+          "#wget https://s3.amazonaws.com/phd3/PADS-1.3.0.0-11698.tar.gz --no-check-certificate \n",
           "#tar xvfz hawq-plugin-1.0-30.tar.gz >> phd.log \n",
           "#tar xvfz PADS-1.3.0.0-11698.tar.gz >> phd.log \n",
-          "#yum install -y ./hawq-plugin-1.0-30/hawq-plugin-1.0-30.noarch.rpm >> phd.log\n",
+          "yum install -y hawq-plugin >> phd.log\n",
           "#/PADS-1.3.0.0-11698/setup_repo.sh >> phd.log \n",
 
 		  "ambari-server start >> phd.log \n",
