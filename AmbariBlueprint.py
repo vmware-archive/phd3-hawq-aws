@@ -75,12 +75,14 @@ def buildHostMappingTemplate(hostNames, groups, blueprintName):
 
 def applyBlueprint(url, blueprintName):
     print "ApplyBlueprint"
+
+    auth = HTTPBasicAuth('admin', 'admin')
     headers = {'X-Requested-By': 'Heffalump'}
     postURL = str(url) + "/blueprints/" + str(blueprintName) + "?validate_topology=false -d @/" + str(
         blueprintName) + ".json"
-    req = requests.post(postURL, auth=HTTPBasicAuth('admin', 'admin'), headers=headers)
+    req = requests.post(url=postURL, auth=auth, headers=headers)
     postURL2 = str(url) + "/clusters/PHDCluster -d @/hostmapping-template.json"
-    req2 = requests.post(postURL2, auth=HTTPBasicAuth('admin', 'admin'), headers=headers)
+    req2 = requests.post(url=postURL2, auth=auth, headers=headers)
     print postURL
     print req.status_code
     print req.url
