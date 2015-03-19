@@ -86,9 +86,10 @@ def createRepo(fileNames, logFile):
     for fileName in fileNames:
         try:
             tar = tarfile.open(baseDir + fileName, "r:gz")
+            tarMembers = tar.getmembers()
             tar.extractall(baseDir)
             tar.close()
-            repoPath = baseDir + fileName[:-7]
+            repoPath = baseDir + (str(tarMembers[0]).split(" ")[1]).strip('\'')
             os.system(repoPath + "/setup_repo.sh")
         except Exception as e:
             logFile.write(e)

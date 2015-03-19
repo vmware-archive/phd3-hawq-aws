@@ -88,16 +88,6 @@ def applyBlueprint(url, blueprintName):
     print response.text
     print response2.text
 
-    # test of urllib2
-
-
-    # Testing just the blueprint post
-
-#
-
-# >>> r = requests.get(url, headers=headers)
-# "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic?validate_topology=false -d @blueprint.json >> phd.log\n",
-# "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/clusters/PivCluster -d @hostmapping-template.json >>phd.log\n"
 
 
 if __name__ == '__main__':
