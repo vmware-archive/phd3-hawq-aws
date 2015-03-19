@@ -75,26 +75,22 @@ def buildHostMappingTemplate(hostNames, groups, blueprintName):
 
 def applyBlueprint(url, blueprintName):
     print "ApplyBlueprint"
-
+    fileName = str(blueprintName) + ".json"
+    postURL = str(url) + "/blueprints/" + str(blueprintName) + "?validate_topology=false"
     auth = HTTPBasicAuth('admin', 'admin')
     headers = {'X-Requested-By': 'Heffalump'}
-    postURL = str(url) + "/blueprints/" + str(blueprintName) + "?validate_topology=false -d @/" + str(
-        blueprintName) + ".json"
-    req = requests.post(url=postURL, auth=auth, headers=headers)
-    postURL2 = str(url) + "/clusters/PHDCluster -d @/hostmapping-template.json"
-    req2 = requests.post(url=postURL2, auth=auth, headers=headers)
-    print postURL
-    print req.status_code
-    print req.headers
-    print req
-    print req.url
-    print req.text
-    print req.raw
-    print postURL2
-    print req2.status_code
-    print req2.url
-    print req2.text
-    print req2.raw
+    fileHandle = open(fileName, "rb")
+    response = requests.post(postURL, auth=auth, data=fileHandle, headers=headers)
+    fileHandle2 = open("hostmapping-template.json")
+    postURL2 = str(url) + "/clusters/PHDCluster"
+    response2 = requests.post(postURL2, auth=auth, data=fileHandle2, headers=headers)
+
+    print response.text
+    print response2.text
+
+    # test of urllib2
+
+
     # Testing just the blueprint post
 
 #
