@@ -77,6 +77,13 @@
                           { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "ManagementNodeInstanceType" }, "Arch" ] } ] },
         "InstanceType"   : { "Ref" : "ManagementNodeInstanceType" },
         "SecurityGroups" : [ {"Ref" : "PHDSecurityGroup"} ],
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/sda1",
+            "Ebs": {"VolumeSize": "50"}
+          }
+        ],
+
         "KeyName"        : { "Ref" : "KeyName" },
         "Tags" : [{
           "Key"   : "Name",
