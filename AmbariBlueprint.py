@@ -80,7 +80,7 @@ def applyBlueprint(url, blueprintName):
     postURL = str(url) + "/blueprints/" + str(blueprintName) + "?validate_topology=false -d @" + str(
         blueprintName) + ".json"
     req = requests.post(postURL, auth=HTTPBasicAuth('admin', 'admin'), headers=headers)
-    postURL2 = str(url) + "clusters/PHDCluster -d @hostmapping-template.json"
+    postURL2 = str(url) + "/clusters/PHDCluster -d @hostmapping-template.json"
     req2 = requests.post(postURL2, auth=HTTPBasicAuth('admin', 'admin'), headers=headers)
     print postURL
     print req.status_code

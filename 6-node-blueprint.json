@@ -15,8 +15,8 @@
                 { "name": "HBASE_MASTER" }, 
                 { "name": "GANGLIA_SERVER" }, 
                 { "name": "HDFS_CLIENT" }, 
-                { "name": "YARN_CLIENT" }, 
-                { "name": "HCAT" }, 
+                { "name": "YARN_CLIENT" },
+              {"name": "HCAT"},
                 { "name": "GANGLIA_MONITOR" }
             ]
         }, 
