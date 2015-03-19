@@ -96,7 +96,7 @@
           "stack_name=",
           {"Ref": "AWS::StackName"},
           "\n",
-
+          "yum clean all \n",
 		  "yum -y remove *openjdk \n",      
           "# Setup correct file ownership\n",
           "#wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.1/ambari.repo -O /etc/yum.repos.d/ambari.repo\n",

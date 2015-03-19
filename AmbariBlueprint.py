@@ -76,20 +76,19 @@ def buildHostMappingTemplate(hostNames, groups, blueprintName):
 
 def applyBlueprint(url, blueprintName):
     print "ApplyBlueprint"
-    print str(url) + "/blueprints/" + str(blueprintName) + "?validate_topology=false -d " + str(blueprintName) + ".json"
-
-    req = requests.post(url + "/blueprints/" + blueprintName + "?validate_topology=false -d " + blueprintName + ".json",
-                        auth=HTTPBasicAuth('admin', 'admin'))
-    print str(url) + "/blueprints/" + blueprintName + "?validate_topology=false -d " + str(blueprintName) + ".json"
-
+    headers = {'X-Requested-By': 'Heffalump'}
+    req = requests.post(
+        url + "/blueprints/" + blueprintName + "?validate_topology=false -d @" + blueprintName + ".json",
+        auth=HTTPBasicAuth('admin', 'admin'), headers=headers)
+    req2 = requests.post(url + "clusters/PHDCluster -d @hostmapping-template.json",
+                         auth=HTTPBasicAuth('admin', 'admin'), headers=headers)
     print req
-
-    preq = requests.post(url + "clusters/PHDCluster -d @hostmapping-template.json",
-                         auth=HTTPBasicAuth('admin', 'admin'))
-    print str(url) + "clusters/PHDCluster -d @hostmapping-template.json"
-    print preq
+    print req2
     # Testing just the blueprint post
 
+#
+
+# >>> r = requests.get(url, headers=headers)
     # "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/clusters/PivCluster -d @hostmapping-template.json >>phd.log\n"
     # "curl -u admin:admin -H 'X-Requested-By:dbaskette' -X POST http://$MY_IP:8080/api/v1/blueprints/blueprint-phd-multinode-basic?validate_topology=false -d @blueprint.json >> phd.log\n",
 

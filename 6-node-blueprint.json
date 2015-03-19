@@ -1,8 +1,8 @@
 {
     "Blueprints": {
         "stack_name": "PHD", 
-        "stack_version": "3.0", 
-        "blueprint_name": "blueprint-phd-multinode-basic"
+        "stack_version": "3.0",
+      "blueprint_name": "6-node-blueprint"
     }, 
     "host_groups": [
         {

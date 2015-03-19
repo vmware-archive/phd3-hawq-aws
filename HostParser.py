@@ -22,16 +22,18 @@ def parseBlueprint(numHosts):
     # Parse Blueprint to pull out Groups and # hosts per
 
     groupsArray=[]
-    with open(str(numHosts)+"-node-blueprint.json","r") as blueprintFile:
+    blueprintName = str(numHosts) + "-node-blueprint.json"
+    with open(blueprintName, "r") as blueprintFile:
         bluePrint = json.load(blueprintFile)
         for groups in bluePrint["host_groups"]:
             groupsArray.append(groups["cardinality"]+":"+groups["name"])
         return groupsArray
 
-def buildHostMappingTemplate(hostNames,groups):
-    # Assign Hosts to groups
 
-    template = "{\n\"blueprint\": \"blueprint-phd-multinode-basic\",\n\"default_password\": \"super-secret-password\",\n\"host_groups\": [\n"
+def buildHostMappingTemplate(hostNames, groups, numHosts):
+    # Assign Hosts to groups
+    blueprintName = str(numHosts) + "-node-blueprint.json"
+    template = "{\n\"blueprint\": \"" + blueprintName + "\",\n\"default_password\": \"super-secret-password\",\n\"host_groups\": [\n"
     i=0
     hostGroup = []
     for group in groups:
@@ -68,4 +70,4 @@ def buildHostMappingTemplate(hostNames,groups):
 if __name__ == '__main__':
     hostNames =parseAmbariHosts()
     groups = parseBlueprint(len(hostNames)-1)
-    buildHostMappingTemplate(hostNames,groups)
+    buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
