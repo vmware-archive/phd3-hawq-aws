@@ -82,8 +82,10 @@ def applyBlueprint(url, blueprintName):
         auth=HTTPBasicAuth('admin', 'admin'), headers=headers)
     req2 = requests.post(url + "clusters/PHDCluster -d @hostmapping-template.json",
                          auth=HTTPBasicAuth('admin', 'admin'), headers=headers)
-    print req
-    print req2
+    print req.status_code
+    print req.text
+    print req2.status_code
+    print req.text
     # Testing just the blueprint post
 
 #
