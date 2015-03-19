@@ -73,7 +73,6 @@ def buildHostMappingTemplate(hostNames, groups, blueprintName):
         hostsString = hostsString[:-1] + "\n]\n}"
         templateFile.write(hostsString)
 
-
 def applyBlueprint(url, blueprintName):
     print "ApplyBlueprint"
     headers = {'X-Requested-By': 'Heffalump'}
