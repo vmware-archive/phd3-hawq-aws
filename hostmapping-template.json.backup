@@ -43,14 +43,6 @@
                 { "fqdn": "${machines[8]}" }
             ], 
             "name": "slave"
-        },
-        {
-            "hosts": [
-                {
-                    "fqdn": "${machines[0]}"
-                }
-            ], 
-            "name": "gateway"
         }
     ]
 }

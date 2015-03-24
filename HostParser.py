@@ -3,7 +3,6 @@ import json
 
 def parseAmbariHosts():
     # Parse ambari-hosts.txt and pull out agent hostnames
-
     jsonString=""
     jsonFound = False
     hostNames=[]
@@ -13,9 +12,10 @@ def parseAmbariHosts():
                 jsonFound = True
             if jsonFound:
                 jsonString = jsonString + line
-        jsonString = jsonString[:-1]
+                # jsonString = jsonString[:-1]
     for items in json.loads(jsonString)["items"]:
         hostNames.append(items["Hosts"]["host_name"])
+    print hostNames
     return hostNames
 
 
