@@ -6,6 +6,7 @@ import json
 from requests.auth import HTTPBasicAuth
 import requests
 
+
 def getRepos():
     print "getRepo"
     # look through repo files and then submit via REST
@@ -17,6 +18,8 @@ def getRepos():
     for repo in repos:
         url = str(repo["href"])
         repoID = str(repo["Repositories"]["repo_id"])
+        if repoID == "PHD-3.0":
+            repoID = "PHD-3.0.0.0"
         payload = "{\"Repositories\": {\"base_url\": \"http://" + hostName + "/" + repoID + "/\" , \"verify_base_url\" :false}}"
         test = requests.put(url, auth=auth, headers=headers, data=payload)
 
