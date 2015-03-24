@@ -122,25 +122,21 @@
 		  "mv UnlimitedJCEPolicyJDK7.zip /var/lib/ambari-server/resources/ \n",
 
           "ambari-server setup -s\n",
-          "yum install -y ambari-agent\n",
-
-          "ambari-agent start\n",
           "yum install -y hawq-plugin >> phd.log\n",
           "ambari-server start >> phd.log \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/SetRepos.py \n",
+          "python SetRepos.sh \n",
+          "yum install -y ambari-agent\n",
+          "ambari-agent start\n",
+
 
           "MY_IP=`(curl http://169.254.169.254/latest/meta-data/local-hostname)`\n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
-
 
 
           "number_of_slaves=", { "Ref" : "ClusterNodes" } , "\n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/6-node-blueprint.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/wait-for-slaves.sh \n",
 
-
-          "yum install -y hawq-plugin >> phd.log\n",
-
-		  "ambari-server start >> phd.log \n",
 
 
           "chmod +x wait-for-slaves.sh\n",

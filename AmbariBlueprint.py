@@ -1,7 +1,6 @@
 __author__ = 'dbaskette'
 
 import json
-import argparse
 import socket
 
 import requests
@@ -92,6 +91,7 @@ def applyBlueprint(url, blueprintName):
 
 def setRepo():
     print "setRepo"
+    # READ REPO FILES AND BUILD THEM
     hostName = socket.getfqdn()
     payload = {"Repositories": {"base_url": hostName + "/PHD/"}}
     headers = {'X-Requested-By': 'Heffalump'}
@@ -100,32 +100,15 @@ def setRepo():
     requests.put(url, auth=auth, headers=headers, data=payload)
 
 
-def cliParse():
-    VALID_ACTION = ["install", "set"]
-    parser = argparse.ArgumentParser(description='Repo')
-    subparsers = parser.add_subparsers(help='sub-command help', dest="subparser_name")
-    parser_install = subparsers.add_parser("install", help="Install A Cluster")
-    parser_set = subparsers.add_parser("install", help="Set Repos")
-
-    args = parser.parse_args()
-    return args
-
-
 
 
 
 if __name__ == '__main__':
-
-    args = cliParse()
-
-    if (args.subparser_name == "install"):
-        hostNames = parseAmbariHosts()
-        blueprintName = str(len(hostNames) - 1) + "-node-blueprint"
-        groups = parseBlueprint(blueprintName)
-        # buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
-        buildHostMappingTemplate(hostNames, groups, blueprintName)
-        url = "http://localhost:8080/api/v1"
-        applyBlueprint(url, blueprintName)
-        print "blueprint"
-    elif (args.subparser_name == "set"):
-        setRepo()
+    hostNames = parseAmbariHosts()
+    blueprintName = str(len(hostNames) - 1) + "-node-blueprint"
+    groups = parseBlueprint(blueprintName)
+    # buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
+    buildHostMappingTemplate(hostNames, groups, blueprintName)
+    url = "http://localhost:8080/api/v1"
+    applyBlueprint(url, blueprintName)
+    print "blueprint"

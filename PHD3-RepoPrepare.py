@@ -92,7 +92,6 @@ def createRepo(fileNames, logFile):
             repoName = (str(tarMembers[0]).split(" ")[1]).strip('\'')
             repoPath = baseDir + repoName
             os.system(repoPath + "/setup_repo.sh")
-            documentRepos(repoName)
         except Exception as e:
             logFile.write(e)
 
@@ -131,8 +130,6 @@ def cliParse():
     parser_get.add_argument("--key", dest='accessKey', action="store", help="Your access key", required=False)
     parser_get.add_argument("--secret", dest='secretKey', action="store", help="Your Secret key", required=False)
     parser_get.add_argument("--stack", dest='stack', action="store", help="StackName", required=False)
-    parser_get = subparsers.add_parser("set", help="Set Ambari Repo Locations")
-
     args = parser.parse_args()
     return args
 
