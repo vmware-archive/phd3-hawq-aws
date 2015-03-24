@@ -1,6 +1,8 @@
 __author__ = 'dbaskette'
 
 import json
+import argparse
+import socket
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -23,7 +25,6 @@ def parseAmbariHosts():
         hostNames.append(items["Hosts"]["host_name"])
     print hostNames
     return hostNames
-
 
 def parseBlueprint(blueprintName):
     # Parse Blueprint to pull out Groups and # hosts per
@@ -89,14 +90,42 @@ def applyBlueprint(url, blueprintName):
     print response2.text
 
 
+def setRepo():
+    print "setRepo"
+    hostName = socket.getfqdn()
+    payload = {"Repositories": {"base_url": hostName + "/PHD/"}}
+    headers = {'X-Requested-By': 'Heffalump'}
+    auth = HTTPBasicAuth('admin', 'admin')
+    url = "http://" + hostName + ":8080/api/v1/stacks/PHD/versions/3.0/operating_systems/redhat6/repositories/PHD-3.0"
+    requests.put(url, auth=auth, headers=headers, data=payload)
+
+
+def cliParse():
+    VALID_ACTION = ["install", "set"]
+    parser = argparse.ArgumentParser(description='Repo')
+    subparsers = parser.add_subparsers(help='sub-command help', dest="subparser_name")
+    parser_install = subparsers.add_parser("install", help="Install A Cluster")
+    parser_set = subparsers.add_parser("install", help="Set Repos")
+
+    args = parser.parse_args()
+    return args
+
+
+
+
 
 if __name__ == '__main__':
-    hostNames = parseAmbariHosts()
-    blueprintName = str(len(hostNames) - 1) + "-node-blueprint"
-    groups = parseBlueprint(blueprintName)
-    # buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
-    buildHostMappingTemplate(hostNames, groups, blueprintName)
 
-    url = "http://localhost:8080/api/v1"
-    applyBlueprint(url, blueprintName)
-    print "blueprint"
+    args = cliParse()
+
+    if (args.subparser_name == "install"):
+        hostNames = parseAmbariHosts()
+        blueprintName = str(len(hostNames) - 1) + "-node-blueprint"
+        groups = parseBlueprint(blueprintName)
+        # buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
+        buildHostMappingTemplate(hostNames, groups, blueprintName)
+        url = "http://localhost:8080/api/v1"
+        applyBlueprint(url, blueprintName)
+        print "blueprint"
+    elif (args.subparser_name == "set"):
+        setRepo()

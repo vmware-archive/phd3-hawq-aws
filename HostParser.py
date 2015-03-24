@@ -18,6 +18,7 @@ def parseAmbariHosts():
         hostNames.append(items["Hosts"]["host_name"])
     return hostNames
 
+
 def parseBlueprint(numHosts):
     # Parse Blueprint to pull out Groups and # hosts per
 

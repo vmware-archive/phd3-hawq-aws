@@ -96,7 +96,7 @@
           {"Ref": "AWS::StackName"},
           "\n",
           "yum clean all \n",
-		  "yum -y remove *openjdk \n",      
+          "yum -y remove *openjdk \n",
 
           "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.rpm \n",
       	  "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.tar.gz \n",
@@ -108,9 +108,8 @@
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PHD3-RepoPrepare.py \n",
           "python setup.py install \n",
-          "python PHD3-RepoPrepare.py get --key=ADDKEY --secret=ADDSECRETKEY --stack=$stack_name\n",
+          "python PHD3-RepoPrepare.py get --key=AKIAJGWUTRYH3EHXCQUQ --secret=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 --stack=$stack_name\n",
 
-		  
       	  "chkconfig iptables off \n",
 		  "chkconfig ip6tables off \n",
 		  "service iptables stop \n",
@@ -126,10 +125,13 @@
           "yum install -y ambari-agent\n",
 
           "ambari-agent start\n",
-    
+          "yum install -y hawq-plugin >> phd.log\n",
+          "ambari-server start >> phd.log \n",
 
-			
           "MY_IP=`(curl http://169.254.169.254/latest/meta-data/local-hostname)`\n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
+
+
 
           "number_of_slaves=", { "Ref" : "ClusterNodes" } , "\n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/6-node-blueprint.json \n",
@@ -144,7 +146,8 @@
           "chmod +x wait-for-slaves.sh\n",
           "./wait-for-slaves.sh $MY_IP $number_of_slaves\n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
-          "python AmbariBlueprint.py >> phd.log \n"
+          "python AmbariBlueprint.py install>> phd.log \n"
+
 
         ]]}}        
       }

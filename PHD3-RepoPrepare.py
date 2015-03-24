@@ -89,8 +89,10 @@ def createRepo(fileNames, logFile):
             tarMembers = tar.getmembers()
             tar.extractall(baseDir)
             tar.close()
-            repoPath = baseDir + (str(tarMembers[0]).split(" ")[1]).strip('\'')
+            repoName = (str(tarMembers[0]).split(" ")[1]).strip('\'')
+            repoPath = baseDir + repoName
             os.system(repoPath + "/setup_repo.sh")
+            documentRepos(repoName)
         except Exception as e:
             logFile.write(e)
 
@@ -109,17 +111,28 @@ def uploadRepo(awsKey, secretKey, stack, logFile):
         logFile.write(e)
 
 
+def documentRepos(repoName):
+    print "Document Repo"
+    with open("repo-info.txt", "w+") as repoList:
+        repoList.write(repoName)
+
+
+
+
+
 
 
 
 def cliParse():
-    VALID_ACTION = ["get"]
+    VALID_ACTION = ["get", "set"]
     parser = argparse.ArgumentParser(description='Amazon S3 Download')
     subparsers = parser.add_subparsers(help='sub-command help', dest="subparser_name")
     parser_get = subparsers.add_parser("get", help="Get a file from S3")
     parser_get.add_argument("--key", dest='accessKey', action="store", help="Your access key", required=False)
     parser_get.add_argument("--secret", dest='secretKey', action="store", help="Your Secret key", required=False)
     parser_get.add_argument("--stack", dest='stack', action="store", help="StackName", required=False)
+    parser_get = subparsers.add_parser("set", help="Set Ambari Repo Locations")
+
     args = parser.parse_args()
     return args
 
