@@ -107,11 +107,7 @@
 
           "stack_name=",
           {"Ref": "AWS::StackName"},
-          "access_key=",
-          {"Ref": "AWS::AccessKey"},
-          "secret_key=",
-          {"Ref": "AWS::SecretKey"},
-          "\n",
+
           "yum clean all \n",
           "yum -y remove *openjdk \n",
 
@@ -203,6 +199,10 @@
           "stack_name=",
           {"Ref": "AWS::StackName"},
           "\n",
+          "access_key=",
+          {"Ref": "AccessKey"},
+          "secret_key=",
+          {"Ref": "SecretKey"},
 
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setup.py \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
