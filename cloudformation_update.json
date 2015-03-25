@@ -125,7 +125,7 @@
           "yum install -y hawq-plugin >> phd.log\n",
           "ambari-server start >> phd.log \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/SetRepos.py \n",
-          "python SetRepos.sh \n",
+          "python SetRepos.py \n",
           "yum install -y ambari-agent\n",
           "ambari-agent start\n",
 

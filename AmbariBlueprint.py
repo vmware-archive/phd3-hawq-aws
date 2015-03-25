@@ -2,6 +2,11 @@ __author__ = 'dbaskette'
 
 import json
 import socket
+import argparse
+
+import boto
+import boto.s3.connection
+from boto.s3.key import Key
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -117,7 +122,7 @@ def setRepo():
     requests.put(url, auth=auth, headers=headers, data=payload)
 
 
-def buildHostsFile(hostNames, awsKey, secretKey, stack, logFile):
+def buildHostsFile(hostNames, awsKey, secretKey, stacks):
     print "Build /etc/hosts"
     print hostNames
     hostsFile = open("/etc/hosts", "a")
@@ -126,14 +131,52 @@ def buildHostsFile(hostNames, awsKey, secretKey, stack, logFile):
         hostIP = str(host.split(".")[0])[3:].replace("-", ".")
         hostsFile.write(hostIP + "     " + host + "\n")
 
+    bucketName = str(stacks) + "-ambari-repo"
+    print bucketName
+    try:
+        conn = boto.connect_s3(aws_access_key_id=awsKey, aws_secret_access_key=secretKey)
+        print conn
+        bucket = conn.get_bucket(bucketName)
+        print bucket
+        k = Key(bucket)
+        print k
+        k.key = 'hosts'
+        print k.set_contents_from_filename("/etc/hosts")
+        print k.set_canned_acl('private')
+    except Exception as e:
+        pass
+
+
+def cliParse():
+    VALID_ACTION = ["install", "hosts"]
+    parser = argparse.ArgumentParser(description='Amazon S3 Upload')
+    subparsers = parser.add_subparsers(help='sub-command help', dest="subparser_name")
+    parser_hosts = subparsers.add_parser("hosts", help="Upload hostsfile from S3")
+    parser_hosts.add_argument("--key", dest='accessKey', action="store", help="Your access key", required=False)
+    parser_hosts.add_argument("--secret", dest='secretKey', action="store", help="Your Secret key", required=False)
+    parser_hosts.add_argument("--stack", dest='stack', action="store", help="StackName", required=False)
+
+    parser_install = subparsers.add_parser("install", help="Install with Blueprint")
+
+    args = parser.parse_args()
+    return args
+
 
 if __name__ == '__main__':
-    hostNames = parseAmbariHosts()
-    buildHostsFile(hostNames)
-    blueprintName = str(len(hostNames) - 1) + "-node-blueprint"
-    groups = parseBlueprint(blueprintName)
-    # buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
-    buildHostMappingTemplate(hostNames, groups, blueprintName)
-    url = "http://localhost:8080/api/v1"
-    applyBlueprint(url, blueprintName)
-    print "blueprint"
+
+    args = cliParse()
+    print args.subparser_name
+    if (args.subparser_name == "install"):
+
+        hostNames = parseAmbariHosts()
+        blueprintName = str(len(hostNames) - 1) + "-node-blueprint"
+        groups = parseBlueprint(blueprintName)
+        # buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
+        buildHostMappingTemplate(hostNames, groups, blueprintName)
+        url = "http://localhost:8080/api/v1"
+        applyBlueprint(url, blueprintName)
+        print "blueprint"
+    elif (args.subparser_name == "hosts"):
+        print "hosts"
+        hostNames = parseAmbariHosts()
+        buildHostsFile(hostNames, args.accessKey, args.secretKey, args.stack)

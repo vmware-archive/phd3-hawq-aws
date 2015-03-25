@@ -27,6 +27,14 @@ def getRepo(awsKey, secretKey, stack):
             fileExists = True
         except Exception as e:
             pass
+    fileExists = False
+    while not fileExists:
+        try:
+            key = bucket.get_key("hosts")
+            key.get_contents_to_filename("/etc/hosts")
+            fileExists = True
+        except Exception as e:
+            pass
     conn.close()
 
 
