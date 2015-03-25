@@ -96,8 +96,7 @@
 
 
         "KeyName"        : { "Ref" : "KeyName" },
-        "AccessKey": {"Ref": "AccessKey"},
-        "SecretKey": {"Ref": "SecretKey"},
+
         "Tags" : [{
           "Key"   : "Name",
           "Value" : { "Fn::Join"  : [ "-" , [ { "Ref" : "AWS::StackName" }, "managementnode" ]]}
@@ -107,7 +106,10 @@
 
           "stack_name=",
           {"Ref": "AWS::StackName"},
-
+          "access_key=",
+          {"Ref": "AccessKey"},
+          "secret_key=",
+          {"Ref": "SecretKey"},
           "yum clean all \n",
           "yum -y remove *openjdk \n",
 
@@ -192,8 +194,6 @@
          }
        ],
         "KeyName"        : { "Ref" : "KeyName" },
-        "AccessKey": {"Ref": "AccessKey"},
-        "SecretKey": {"Ref": "SecretKey"},
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
           "stack_name=",
