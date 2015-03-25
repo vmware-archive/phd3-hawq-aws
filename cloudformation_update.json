@@ -46,6 +46,16 @@
       "Type": "Number",
       "Default": 10,
        "AllowedValues" : [2,6,10,18,34]
+    },
+    "AccessKey": {
+      "Description": "Access Key ID",
+      "Type": "String",
+      "NoEcho": "True"
+    },
+    "SecretKey": {
+      "Description": "Access Key ID",
+      "Type": "String",
+      "NoEcho": "True"
     }
   },
 
@@ -93,6 +103,10 @@
 
           "stack_name=",
           {"Ref": "AWS::StackName"},
+          "access_key=",
+          {"Ref": "AccessKey"},
+          "secret_key=",
+          {"Ref": "SecretKey"},
           "\n",
           "yum clean all \n",
           "yum -y remove *openjdk \n",
@@ -181,6 +195,10 @@
           "#!/bin/bash -v\n",
           "stack_name=",
           {"Ref": "AWS::StackName"},
+          "access_key=",
+          {"Ref": "AccessKey"},
+          "secret_key=",
+          {"Ref": "SecretKey"},
           "\n",
 
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setup.py \n",
