@@ -8,12 +8,7 @@ Server: Jetty(7.6.7.v20120910)
 {
   "href" : "http://ip-172-31-15-22.ec2.internal:8080/api/v1/hosts",
   "items" : [
-    {
-      "href" : "http://ip-172-31-15-22.ec2.internal:8080/api/v1/hosts/ip-172-31-1-124.ec2.internal",
-      "Hosts" : {
-        "host_name" : "centos7.localdomain"
-      }
-    },
+
     {
       "href" : "http://ip-172-31-15-22.ec2.internal:8080/api/v1/hosts/ip-172-31-1-125.ec2.internal",
       "Hosts" : {

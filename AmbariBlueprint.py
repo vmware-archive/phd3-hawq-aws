@@ -6,6 +6,7 @@ import socket
 import requests
 from requests.auth import HTTPBasicAuth
 
+
 def parseAmbariHosts():
     # Parse ambari-hosts.txt and pull out agent hostnames
 
@@ -116,11 +117,19 @@ def setRepo():
     requests.put(url, auth=auth, headers=headers, data=payload)
 
 
-
+def buildHostsFile(hostNames, awsKey, secretKey, stack, logFile):
+    print "Build /etc/hosts"
+    print hostNames
+    hostsFile = open("/etc/hosts", "a")
+    for host in hostNames:
+        hostIP = ""
+        hostIP = str(host.split(".")[0])[3:].replace("-", ".")
+        hostsFile.write(hostIP + "     " + host + "\n")
 
 
 if __name__ == '__main__':
     hostNames = parseAmbariHosts()
+    buildHostsFile(hostNames)
     blueprintName = str(len(hostNames) - 1) + "-node-blueprint"
     groups = parseBlueprint(blueprintName)
     # buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
