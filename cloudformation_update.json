@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
   
-  "Description" : "Cloud Formation for Pivotal HD 3.0 and HAWQ cluster with Ambari",
+  "Description" : "Cloud Formation for Pivotal HD3.0 and HAWQ cluster with Ambari",
   
   "Parameters" : {
       
