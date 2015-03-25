@@ -141,7 +141,9 @@
 
           "chmod +x wait-for-slaves.sh\n",
           "./wait-for-slaves.sh $MY_IP $number_of_slaves\n",
+
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
+          "python AmbariBlueprint.py hosts --key=key --secret=secret --stack=$stack_name\n",
           "python AmbariBlueprint.py install>> phd.log \n"
 
 
