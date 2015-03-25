@@ -96,6 +96,8 @@
 
 
         "KeyName"        : { "Ref" : "KeyName" },
+        "AccessKey": {"Ref": "AccessKey"},
+        "SecretKey": {"Ref": "SecretKey"},
         "Tags" : [{
           "Key"   : "Name",
           "Value" : { "Fn::Join"  : [ "-" , [ { "Ref" : "AWS::StackName" }, "managementnode" ]]}
@@ -194,6 +196,8 @@
          }
        ],
         "KeyName"        : { "Ref" : "KeyName" },
+        "AccessKey": {"Ref": "AccessKey"},
+        "SecretKey": {"Ref": "SecretKey"},
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
           "stack_name=",
