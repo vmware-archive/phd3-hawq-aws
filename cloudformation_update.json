@@ -100,13 +100,16 @@
         }],
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
-
           "stack_name=",
           {"Ref": "AWS::StackName"},
+          "\n",
           "access_key=",
           {"Ref": "AccessKey"},
+          "\n",
           "secret_key=",
           {"Ref": "SecretKey"},
+          "\n",
+
           "\n",
           "yum clean all \n",
           "yum -y remove *openjdk \n",
@@ -121,7 +124,7 @@
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PHD3-RepoPrepare.py \n",
           "python setup.py install \n",
-          "python PHD3-RepoPrepare.py get --key=key --secret=secret --stack=$stack_name\n",
+          "python PHD3-RepoPrepare.py get --key=$access_key --secret=$secret_key --stack=$stack_name\n",
 
       	  "chkconfig iptables off \n",
 		  "chkconfig ip6tables off \n",
@@ -155,7 +158,7 @@
           "./wait-for-slaves.sh $MY_IP $number_of_slaves\n",
 
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
-          "python AmbariBlueprint.py hosts --key=key --secret=secret --stack=$stack_name\n",
+          "python AmbariBlueprint.py hosts --key=$access_key --secret=$secret_key --stack=$stack_name\n",
           "python AmbariBlueprint.py install>> phd.log \n"
         ]
         ]
@@ -195,8 +198,10 @@
           "#!/bin/bash -v\n",
           "stack_name=",
           {"Ref": "AWS::StackName"},
+          "\n",
           "access_key=",
           {"Ref": "AccessKey"},
+          "\n",
           "secret_key=",
           {"Ref": "SecretKey"},
           "\n",
@@ -205,7 +210,7 @@
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/ClientPrepare.py \n",
           "python setup.py install \n",
-          "python ClientPrepare.py get --key=ADDKEY --secret=ADDSECRETKEY --stack=$stack_name\n",
+          "python ClientPrepare.py get --key=$access_key --secret=$secret_key --stack=$stack_name\n",
           "yum install -y ambari-agent\n",
           "ambari_agent=/etc/ambari-agent/conf/ambari-agent.ini\n",
           "sed -i 's/hostname=.*/hostname=", { "Fn::GetAtt" : [ "ManagementNode", "PrivateDnsName" ]}, "/g' $ambari_agent\n",
