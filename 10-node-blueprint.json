@@ -1,0 +1,118 @@
+{
+  "Blueprints": {
+    "stack_name": "PHD",
+    "stack_version": "3.0",
+    "blueprint_name": "10-node-blueprint"
+  },
+  "host_groups": [
+    {
+      "cardinality": "1",
+      "name": "master_1",
+      "components": [
+        {"name": "NAMENODE"},
+        {"name": "PXF"},
+        {"name": "ZOOKEEPER_SERVER"},
+        {"name": "HBASE_MASTER"},
+        {"name": "GANGLIA_SERVER"},
+        {"name": "HDFS_CLIENT"},
+        {"name": "YARN_CLIENT"},
+        {"name": "GANGLIA_MONITOR"}
+      ]
+    },
+    {
+      "cardinality": "1",
+      "name": "master_2",
+      "components": [
+        {"name": "ZOOKEEPER_CLIENT"},
+        {"name": "HISTORYSERVER"},
+        {"name": "SECONDARY_NAMENODE"},
+        {"name": "HAWQMASTER"},
+        {"name": "PXF"},
+        {"name": "HDFS_CLIENT"},
+        {"name": "YARN_CLIENT"},
+        {"name": "GANGLIA_MONITOR"}
+      ]
+    },
+    {
+      "cardinality": "1",
+      "name": "master_3",
+      "components": [
+        {"name": "RESOURCEMANAGER"},
+        {"name": "APP_TIMELINE_SERVER"},
+        {"name": "HAWQSTANDBY"},
+        {"name": "ZOOKEEPER_SERVER"},
+        {"name": "GANGLIA_MONITOR"}
+      ]
+    },
+    {
+      "cardinality": "1",
+      "name": "master_4",
+      "components": [
+        {"name": "ZOOKEEPER_SERVER"},
+        {"name": "GANGLIA_MONITOR"}
+      ]
+    },
+    {
+      "cardinality": "5",
+      "name": "slave",
+      "components": [
+        {"name": "NODEMANAGER"},
+        {"name": "DATANODE"},
+        {"name": "PXF"},
+        {"name": "HAWQSEGMENT"},
+        {"name": "GANGLIA_MONITOR"}
+      ]
+    },
+    {
+      "cardinality": "1",
+      "name": "gateway",
+      "components": [
+        {"name": "NAGIOS_SERVER"},
+        {"name": "ZOOKEEPER_CLIENT"},
+        {"name": "HBASE_CLIENT"},
+        {"name": "HDFS_CLIENT"},
+        {"name": "YARN_CLIENT"},
+        {"name": "MAPREDUCE2_CLIENT"},
+        {"name": "GANGLIA_MONITOR"}
+      ]
+    }
+  ],
+  "configurations": [
+    {
+      "nagios-env": {
+        "nagios_contact": "admin@localhost.com"
+      }
+    },
+    {
+      "core-site": {
+        "io.compression.codecs": "org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.SnappyCodec,com.hadoop.compression.lzo.LzoCodec,com.hadoop.compression.lzo.LzopCodec",
+        "io.compression.codec.lzo.class": "com.hadoop.compression.lzo.LzoCodec",
+        "hadoop.proxyuser.oozie.hosts": "*"
+      }
+    },
+    {
+      "hdfs-site": {
+        "dfs.namenode.name.dir": "/mnt/hadoop/hdfs/namenode",
+        "dfs.datanode.data.dir": "/data2/hadoop/hdfs/data",
+        "dfs.support.append": true,
+        "dfs.client.read.shortcircuit": true,
+        "dfs.block.local-path-access.user": "gpadmin",
+        "dfs.datanode.data.dir.perm": 755,
+        "dfs.datanode.max.transfer.threads": 40960,
+        "dfs.datanode.handler.count": 60,
+        "dfs.namenode.accesstime.precision": -1
+      }
+    },
+    {
+      "hadoop-env": {
+        "hdfs_log_dir_prefix": "/mnt/log/hadoop"
+      }
+    },
+    {
+      "hawq-site": {
+        "hawq.data.directory": "/mnt/data/hawq/segments",
+        "hawq.master.directory": "/mnt/data/hawq/master"
+      }
+    }
+  ]
+}

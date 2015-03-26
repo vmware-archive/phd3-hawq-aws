@@ -16,7 +16,7 @@ def registrationMonitor(numAgents):
     while not complete:
         registeredCount = 0
         agentInfo = requests.get(url, auth=auth)
-        ambariHosts = open("ambari-hosts.json", "w")
+        ambariHosts = open("ambariAgents.txt", "w")
         agentJSON = json.loads(agentInfo.text)
         registeredCount = len(agentJSON["items"])
         if registeredCount == numAgents:
