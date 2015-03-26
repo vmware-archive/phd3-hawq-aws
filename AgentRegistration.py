@@ -1,6 +1,7 @@
 __author__ = 'dbaskette'
 import argparse
 import socket
+import time
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -21,6 +22,7 @@ def registrationMonitor(numAgents):
                 registeredCount += 1
         if registeredCount == numAgents:
             complete = True
+        time.sleep(15)
 
 
 def cliParse():
@@ -38,5 +40,5 @@ def cliParse():
 if __name__ == '__main__':
     print "Agent Registration"
     args = cliParse()
-    numAgents = args.numAgents + 1  # Account for Agent on Ambari Server itself
+    numAgents = int(args.numAgents) + 1  # Account for Agent on Ambari Server itself
     registrationMonitor(numAgents)
