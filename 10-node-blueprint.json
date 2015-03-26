@@ -92,8 +92,8 @@
     },
     {
       "hdfs-site": {
-        "dfs.namenode.name.dir": "/mnt/hadoop/hdfs/namenode",
-        "dfs.datanode.data.dir": "/data2/hadoop/hdfs/data",
+        "dfs.namenode.name.dir": "/mnt/data1/hdfs/namenode",
+        "dfs.datanode.data.dir": "/mnt/data1/hdfs/data,/mnt/data2/hdfs/data,/mnt/data3/hdfs/data/,mnt/data4/hdfs/data",
         "dfs.support.append": true,
         "dfs.client.read.shortcircuit": true,
         "dfs.block.local-path-access.user": "gpadmin",
@@ -105,14 +105,14 @@
     },
     {
       "hadoop-env": {
-        "hdfs_log_dir_prefix": "/mnt/log/hadoop"
+        "hdfs_log_dir_prefix": "/mnt/data1/hdfs/log"
       }
     },
     {
       "hawq-site": {
-        "hawq.data.directory": "/mnt/data/hawq/segments",
-        "hawq.master.directory": "/mnt/data/hawq/master"
+        "hawq.data.directory": "/mnt/data1/hawq/segments",
+        "hawq.master.directory": "/mnt/data1/hawq/master"
       }
-    }
+      }
   ]
 }
