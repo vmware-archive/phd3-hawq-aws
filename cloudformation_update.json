@@ -223,7 +223,7 @@
 
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setupNodes.sh\n",
      	  "chmod +x setupNodes.sh \n",
-		  "./setupNodes.sh >> phd_disks.log \n",
+          "./setupNodes.sh >> phd_disks.log \n"
         ]
         ]
         }
