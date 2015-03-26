@@ -37,6 +37,9 @@
                 { "name": "HAWQSTANDBY" },
                 { "name": "ZOOKEEPER_SERVER" },
               { "name": "HIVE_SERVER" },
+              {"name": "HIVE_METASTORE"},
+              {"name": "MYSQL_SERVER"},
+              {"name": "OOZIE_SERVER"},
 
                 { "name": "WEBHCAT_SERVER" },
                 { "name": "GANGLIA_MONITOR" }
@@ -50,8 +53,6 @@
                 { "name": "DATANODE" }, 
                 { "name": "PXF" },
                 { "name": "HAWQSEGMENT" },
-              {"name": "HIVE_METASTORE"},
-              {"name": "MYSQL_SERVER"},
                 { "name": "GANGLIA_MONITOR" }
             ]
         }, 
