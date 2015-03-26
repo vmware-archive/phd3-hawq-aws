@@ -74,9 +74,6 @@
         {
             "nagios-env": {
               "nagios_contact": "admin@localhost.com"
-            },
-          "hdfs-site": {
-            "dfs.datanode.dir": "/mnt,/data2"
             }
         }
     ]
