@@ -1,12 +1,12 @@
 __author__ = 'root'
 
 import argparse
+import os
 
 import boto
 import boto.s3.connection
 
 import PackageManager
-
 
 def getRepo(awsKey, secretKey, stack, ambariServer):
     ambariBucket = "ambari-repo"
@@ -50,6 +50,7 @@ def installAmbariAgent(ambariServer):
         contents = contents.replace("localhost", ambariServer)
     with (open(ambariAgentConfigFile, "w")) as newFile:
         newFile.write(contents)
+    os.system("service ambari-agent start")
 
 
 def cliParse():
