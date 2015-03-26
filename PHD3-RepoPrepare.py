@@ -96,6 +96,11 @@ def createRepo(fileNames, logFile):
             logFile.write(e)
 
 
+def allowSSH():
+    with open("/etc/ssh/sshd_config", "a")as configFile:
+        configFile.write("PasswordAuthentication yes")
+        os.system("service sshd restart")
+
 def uploadRepo(awsKey, secretKey, stack, logFile):
     bucketName = stack + "-" + ambariBucket
     try:
@@ -136,6 +141,7 @@ def cliParse():
 
 def prepareEnv(args):
     logFile = open("repo-prepare.log", "w+")
+    allowSSH()
     fileNames = getSoftware(args.accessKey, args.secretKey)
     createRepo(fileNames, logFile)
     uploadRepo(args.accessKey, args.secretKey, args.stack, logFile)
