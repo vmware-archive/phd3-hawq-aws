@@ -37,9 +37,6 @@
                 { "name": "HAWQSTANDBY" },
                 { "name": "ZOOKEEPER_SERVER" },
               { "name": "HIVE_SERVER" },
-                { "name": "HIVE_METASTORE" },
-                { "name": "MYSQL_SERVER" },
-              {"name": "OOZIE_SERVER"},
 
                 { "name": "WEBHCAT_SERVER" },
                 { "name": "GANGLIA_MONITOR" }
@@ -53,6 +50,8 @@
                 { "name": "DATANODE" }, 
                 { "name": "PXF" },
                 { "name": "HAWQSEGMENT" },
+              {"name": "HIVE_METASTORE"},
+              {"name": "MYSQL_SERVER"},
                 { "name": "GANGLIA_MONITOR" }
             ]
         }, 
@@ -63,9 +62,8 @@
                 { "name": "AMBARI_SERVER" }, 
                 { "name": "NAGIOS_SERVER" }, 
                 { "name": "ZOOKEEPER_CLIENT" }, 
-                { "name": "OOZIE_CLIENT" }, 
-                { "name": "HBASE_CLIENT" }, 
-                { "name": "HCAT" }, 
+                { "name": "OOZIE_CLIENT" },
+              {"name": "HCAT"},
                 { "name": "HDFS_CLIENT" }, 
                 { "name": "HIVE_CLIENT" }, 
                 { "name": "YARN_CLIENT" }, 
@@ -77,7 +75,7 @@
     "configurations": [
         {
             "nagios-env": {
-                "nagios_contact": "admin@localhost"
+              "nagios_contact": "admin@localhost.com"
             }
         }
     ]
