@@ -44,6 +44,18 @@ def getRepo(awsKey, secretKey, stack, ambariServer):
     conn.close()
 
 
+def removeBucket(awsKey, secretKey, stack):
+    ambariBucket = "ambari-repo"
+    bucketName = stack + "-" + ambariBucket
+    conn = boto.connect_s3(aws_access_key_id=awsKey, aws_secret_access_key=secretKey)
+    try:
+        bucket = conn.get_bucket(bucketName)
+        bucketListResultSet = bucket.list()
+        result = bucket.delete_keys([key.name for key in bucketListResultSet])
+        conn.delete_bucket(bucketName)
+    except Exception as e:
+        pass
+
 def allowSSH():
     lines = []
     with open("/etc/ssh/sshd_config", "r")as origFile:
@@ -87,3 +99,4 @@ if __name__ == '__main__':
     args = cliParse()
     allowSSH()
     getRepo(args.accessKey, args.secretKey, args.stack, args.ambariServer)
+    removeBucket(args.accessKey, args.secretKey, args.stack)
