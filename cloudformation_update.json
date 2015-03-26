@@ -151,11 +151,13 @@
           "number_of_slaves=", { "Ref" : "ClusterNodes" } , "\n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/6-node-blueprint.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/wait-for-slaves.sh \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AgentRegistration.py \n",
 
 
 
           "chmod +x wait-for-slaves.sh\n",
           "./wait-for-slaves.sh $MY_IP $number_of_slaves\n",
+          "python AgentRegistration.py $number_of_slaves\n",
 
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
           "python AmbariBlueprint.py hosts --key=$access_key --secret=$secret_key --stack=$stack_name\n",
