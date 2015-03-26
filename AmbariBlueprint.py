@@ -125,17 +125,15 @@ def setRepo():
 def buildHostsFile(hostNames, awsKey, secretKey, stacks):
     print "Build /etc/hosts"
     print hostNames
-    hostsFile = open("/etc/hosts", "a")
-    for host in hostNames:
-        hostIP = ""
-        hostIP = str(host.split(".")[0])[3:].replace("-", ".")
-        hostsFile.write(hostIP + "     " + host + "\n")
+    with open("/etc/hosts", "a") as hostsFile:
+        for host in hostNames:
+            hostIP = ""
+            hostIP = str(host.split(".")[0])[3:].replace("-", ".")
+            hostsFile.write(hostIP + "     " + host + "\n")
 
     bucketName = str(stacks) + "-ambari-repo"
-    print bucketName
     try:
         conn = boto.connect_s3(aws_access_key_id=awsKey, aws_secret_access_key=secretKey)
-        print conn
         bucket = conn.get_bucket(bucketName)
         print bucket
         k = Key(bucket)
