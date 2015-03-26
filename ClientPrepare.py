@@ -8,6 +8,7 @@ import boto.s3.connection
 
 import PackageManager
 
+
 def getRepo(awsKey, secretKey, stack, ambariServer):
     ambariBucket = "ambari-repo"
     ambariRepo = "ambari.repo"
@@ -41,6 +42,12 @@ def getRepo(awsKey, secretKey, stack, ambariServer):
     conn.close()
 
 
+def allowSSH():
+    with open("/etc/ssh/sshd_config", "a")as configFile:
+        configFile.write("\nPasswordAuthentication yes\n")
+        os.system("service sshd restart")
+
+
 def installAmbariAgent(ambariServer):
     ambariAgentConfigFile = "/etc/ambari-agent/conf/ambari-agent.ini"
     PackageManager.install("ambari-agent")
@@ -71,4 +78,5 @@ def cliParse():
 if __name__ == '__main__':
     print "PHD3 Client Prepare"
     args = cliParse()
+    allowSSH()
     getRepo(args.accessKey, args.secretKey, args.stack, args.ambariServer)
