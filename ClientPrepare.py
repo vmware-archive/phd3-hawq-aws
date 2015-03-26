@@ -25,6 +25,7 @@ def getRepo(awsKey, secretKey, stack, ambariServer):
     fileExists = False
     while not fileExists:
         try:
+            bucket = conn.get_bucket(bucketName)
             key = bucket.get_key(ambariRepo)
             key.get_contents_to_filename("/etc/yum.repos.d/" + ambariRepo)
             fileExists = True
@@ -34,6 +35,7 @@ def getRepo(awsKey, secretKey, stack, ambariServer):
     installAmbariAgent(ambariServer)
     while not fileExists:
         try:
+            bucket = conn.get_bucket(bucketName)
             key = bucket.get_key("hosts")
             key.get_contents_to_filename("/etc/hosts")
             fileExists = True
