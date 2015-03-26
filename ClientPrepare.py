@@ -5,8 +5,10 @@ import argparse
 import boto
 import boto.s3.connection
 
+import PackageManager
 
-def getRepo(awsKey, secretKey, stack):
+
+def getRepo(awsKey, secretKey, stack, ambariServer):
     ambariBucket = "ambari-repo"
     ambariRepo = "ambari.repo"
     bucketName = stack + "-" + ambariBucket
@@ -28,6 +30,7 @@ def getRepo(awsKey, secretKey, stack):
         except Exception as e:
             pass
     fileExists = False
+    installAmbariAgent(ambariServer)
     while not fileExists:
         try:
             key = bucket.get_key("hosts")
@@ -38,23 +41,33 @@ def getRepo(awsKey, secretKey, stack):
     conn.close()
 
 
+def installAmbariAgent(ambariServer):
+    ambariAgentConfigFile = "/etc/ambari-agent/conf/ambari-agent.ini"
+    PackageManager.install("ambari-agent")
+    lines = []
+    with open(ambariAgentConfigFile, "r")as origFile:
+        contents = origFile.read()
+        contents = contents.replace("localhost", ambariServer)
+    with (open(ambariAgentConfigFile, "w")) as newFile:
+        newFile.write(contents)
+
+
 def cliParse():
-    VALID_ACTION = ["get"]
-    parser = argparse.ArgumentParser(description='Amazon S3 Download')
+    VALID_ACTION = ["prep"]
+    parser = argparse.ArgumentParser(description='Client Prepare')
     subparsers = parser.add_subparsers(help='sub-command help', dest="subparser_name")
-    parser_get = subparsers.add_parser("get", help="Get a file from S3")
-    parser_get.add_argument("--key", dest='accessKey', action="store", help="Your access key", required=False)
-    parser_get.add_argument("--secret", dest='secretKey', action="store", help="Your Secret key", required=False)
-    parser_get.add_argument("--stack", dest='stack', action="store", help="StackName", required=False)
+    parser_prep = subparsers.add_parser("prep", help="Get a file from S3")
+    parser_prep.add_argument("--key", dest='accessKey', action="store", help="Your access key", required=True)
+    parser_prep.add_argument("--secret", dest='secretKey', action="store", help="Your Secret key", required=True)
+    parser_prep.add_argument("--stack", dest='stack', action="store", help="StackName", required=True)
+    parser_prep.add_argument("--ambari", dest='ambariServer', action="store", help="Hostname of Ambari Server",
+                             required=True)
 
     args = parser.parse_args()
     return args
 
 
-def prepareEnv(args):
-    getRepo(args.accessKey, args.secretKey, args.stack)
-
-
 if __name__ == '__main__':
     print "PHD3 Client Prepare"
-    prepareEnv(cliParse())
+    args = cliParse()
+    getRepo(args.accessKey, args.secretKey, args.stack, args.ambariServer)

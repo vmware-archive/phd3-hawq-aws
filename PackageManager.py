@@ -1,7 +1,5 @@
 __author__ = 'root'
 
-import argparse
-
 import yum
 
 
@@ -16,59 +14,61 @@ def installed(pkg):
         return False
 
 
-def install(pkgs):
-    print "Install Package(s): " + str(pkgs)
-    yb = yum.YumBase()
-    print pkgs
-    for pkg in pkgs:
-        if installed(pkg):
-            print str(pkg) + " is already installed"
-        else:
-            print "Installing " + str(pkg)
-            yb.install(pkg)
-            yb.buildTransaction()
-            yb.processTransaction()
-
-
-def remove(pkgs):
-    print "Remove Package(s): " + str(pkgs)
+def install(pkg):
+    print "Install Package(s): " + str(pkg)
     yb = yum.YumBase()
 
-    print pkgs
-    for pkg in pkgs:
-        if installed(pkg):
-            print "Removing " + str(pkg)
-            yb.remove({'name': pkg})
+    if not installed(pkg):
+        matches = yb.searchGenerator(["name"], [pkg])
+        for (po, matched_value) in matches:
+            if po.name == pkg:
+                yb.install(po)
+        try:
             yb.buildTransaction()
             yb.processTransaction()
-        else:
-            print str(pkg) + " is not installed"
+        except Exception as e:
+            pass
 
 
-def cliParse():
-    VALID_ACTION = ["install", "remove"]
-    parser = argparse.ArgumentParser(description='YUM Package Manager')
-    subparsers = parser.add_subparsers(help='sub-command help', dest="subparser_name")
-    parser_install = subparsers.add_parser("install", help="Install a YUM Packager")
-    parser_install.add_argument("--pkgs", dest='pkgs', action="store", help="Package Names", required=True)
-    parser_remove = subparsers.add_parser("remove", help="Remove a YUM Packager")
-    parser_remove.add_argument("--pkgs", dest='pkgs', action="store", help="Package Names", required=True)
+def remove(pkg):
+    yb = yum.YumBase()
 
-    args = parser.parse_args()
-    pkgs = []
-
-    if (args.subparser_name == "install"):
-        for pkg in args.pkgs.split(","):
-            print pkg
-            pkgs.append(pkg)
-        install(pkgs)
-    elif (args.subparser_name == "remove"):
-        for pkg in args.pkgs.split(","):
-            print pkg
-            pkgs.append(pkg)
-        remove(pkgs)
+    if installed(pkg):
+        matches = yb.searchGenerator(["name"], [pkg])
+        for (po, matched_value) in matches:
+            if po.name == pkg:
+                yb.remove(po)
+        try:
+            yb.buildTransaction()
+            yb.processTransaction()
+        except Exception as e:
+            pass
 
 
-if __name__ == '__main__':
-    print "PHD3 Client Prepare"
-    cliParse()
+# def cliParse():
+# VALID_ACTION = ["install", "remove"]
+#     parser = argparse.ArgumentParser(description='YUM Package Manager')
+#     subparsers = parser.add_subparsers(help='sub-command help', dest="subparser_name")
+#     parser_install = subparsers.add_parser("install", help="Install a YUM Package")
+#     parser_install.add_argument("--pkgs", dest='pkgs', action="store", help="Package Names", required=True)
+#     parser_remove = subparsers.add_parser("remove", help="Remove a YUM Packager")
+#     parser_remove.add_argument("--pkgs", dest='pkgs', action="store", help="Package Names", required=True)
+#
+#     args = parser.parse_args()
+#     pkgs = []
+#
+#     if (args.subparser_name == "install"):
+#         for pkg in args.pkgs.split(","):
+#             print pkg
+#             pkgs.append(pkg)
+#         install(pkgs)
+#     elif (args.subparser_name == "remove"):
+#         for pkg in args.pkgs.split(","):
+#             print pkg
+#             pkgs.append(pkg)
+#         remove(pkgs)
+#
+#
+# if __name__ == '__main__':
+#     print "PHD3 Client Prepare"
+#     cliParse()

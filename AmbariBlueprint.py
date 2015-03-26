@@ -139,10 +139,9 @@ def buildHostsFile(hostNames, awsKey, secretKey, stacks):
         bucket = conn.get_bucket(bucketName)
         print bucket
         k = Key(bucket)
-        print k
         k.key = 'hosts'
-        print k.set_contents_from_filename("/etc/hosts")
-        print k.set_canned_acl('private')
+        k.set_contents_from_filename("/etc/hosts")
+        k.set_canned_acl('private')
     except Exception as e:
         pass
 

@@ -209,11 +209,18 @@
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setup.py \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/ClientPrepare.py \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PackageManager.py \n",
           "python setup.py install \n",
-          "python ClientPrepare.py get --key=$access_key --secret=$secret_key --stack=$stack_name\n",
-          "yum install -y ambari-agent\n",
-          "ambari_agent=/etc/ambari-agent/conf/ambari-agent.ini\n",
-          "sed -i 's/hostname=.*/hostname=", { "Fn::GetAtt" : [ "ManagementNode", "PrivateDnsName" ]}, "/g' $ambari_agent\n",
+          "python ClientPrepare.py prep --key=$access_key --secret=$secret_key --stack=$stack_name --ambari=",
+          {
+            "Fn::GetAtt": [
+              "ManagementNode",
+              "PrivateDnsName"
+            ]
+          },
+          " \n",
+
+
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setupNodes.sh\n",
      	  "chmod +x setupNodes.sh \n",
 		  "./setupNodes.sh >> phd_disks.log \n",
