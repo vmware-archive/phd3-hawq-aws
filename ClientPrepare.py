@@ -47,6 +47,8 @@ def allowSSH():
     with open("/etc/ssh/sshd_config", "r")as origFile:
         contents = origFile.read()
         contents = contents.replace("PasswordAuthentication no", "PasswordAuthentication yes")
+        contents = contents.replace("#PubkeyAuthentication", "PasswordAuthentication")
+
     with (open("/etc/ssh/sshd_config", "w")) as newFile:
         newFile.write(contents)
         os.system("service sshd restart")
