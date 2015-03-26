@@ -16,6 +16,8 @@
                 { "name": "HDFS_CLIENT" }, 
                 { "name": "YARN_CLIENT" },
               {"name": "HCAT"},
+              {"name": "HAWQMASTER"},
+
                 { "name": "GANGLIA_MONITOR" }
             ]
         }, 
@@ -26,7 +28,6 @@
                 { "name": "ZOOKEEPER_CLIENT" }, 
                 { "name": "HISTORYSERVER" }, 
                 { "name": "SECONDARY_NAMENODE" }, 
-                { "name": "HAWQMASTER" },
                 { "name": "PXF" },
                 { "name": "HDFS_CLIENT" }, 
                 { "name": "HIVE_CLIENT" }, 
