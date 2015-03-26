@@ -48,10 +48,9 @@ def allowSSH():
         contents = origFile.read()
         contents = contents.replace("PasswordAuthentication no", "PasswordAuthentication yes \n")
         # contents = contents.replace("#PubkeyAuthentication", "PubkeyAuthentication")
-
     with (open("/etc/ssh/sshd_config", "w")) as newFile:
         newFile.write(contents)
-        os.system("service sshd restart")
+    os.system("service sshd restart")
 
 
 def installAmbariAgent(ambariServer):

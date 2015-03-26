@@ -104,7 +104,7 @@ def allowSSH():
         # contents = contents.replace("#PubkeyAuthentication", "PubkeyAuthentication")
     with (open("/etc/ssh/sshd_config", "w")) as newFile:
         newFile.write(contents)
-        os.system("service sshd restart")
+    os.system("service sshd restart")
 
 def uploadRepo(awsKey, secretKey, stack, logFile):
     bucketName = stack + "-" + ambariBucket
