@@ -2,6 +2,7 @@ __author__ = 'dbaskette'
 import argparse
 import socket
 import time
+import json
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -16,13 +17,14 @@ def registrationMonitor(numAgents):
         registeredCount = 0
         agentInfo = requests.get(url, auth=auth)
         ambariHosts = open("ambari-hosts.json", "w")
-        for line in agentInfo:
-            if line.contains("host_name"):
-                ambariHosts.write(line)
-                registeredCount += 1
+        agentJSON = json.loads(agentInfo.text)
+        registeredCount = len(agentJSON["items"])
         if registeredCount == numAgents:
+            for line in agentJSON["items"]:
+                ambariHosts.write(line["Hosts"]["host_name"] + "\n")
             complete = True
-        time.sleep(15)
+        else:
+            time.sleep(15)
 
 
 def cliParse():
