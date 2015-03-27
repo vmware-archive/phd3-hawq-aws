@@ -58,6 +58,8 @@ def parseBlueprint(blueprintName):
 
 def buildHostMappingTemplate(hostNames, groups, blueprintName):
     # Assign Hosts to groups
+    print hostNames
+    print socket.getfqdn()
     hostNames.remove(socket.getfqdn())
     template = "{\n\"blueprint\": \"" + str(
         blueprintName) + "\",\n\"default_password\": \"super-secret-password\",\n\"host_groups\": [\n"
