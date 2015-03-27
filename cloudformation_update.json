@@ -150,6 +150,8 @@
 
           "number_of_slaves=", { "Ref" : "ClusterNodes" } , "\n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/6-node-blueprint.json \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/10-node-blueprint.json \n",
+
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/wait-for-slaves.sh \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AgentRegistration.py \n",
 
