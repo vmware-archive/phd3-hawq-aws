@@ -6,9 +6,8 @@ import yum
 def installed(pkg):
     yb = yum.YumBase()
     inst = yb.rpmdb.returnPackages()
-    installed = [x.name for x in inst]
+    yb.close()
     if pkg in [x.name for x in inst]:
-        print installed
         return True
     else:
         return False
@@ -26,8 +25,11 @@ def install(pkg):
         try:
             yb.buildTransaction()
             yb.processTransaction()
+
         except Exception as e:
-            pass
+            print e
+        yb.close()
+
 
 
 def remove(pkg):
@@ -41,8 +43,11 @@ def remove(pkg):
         try:
             yb.buildTransaction()
             yb.processTransaction()
+
         except Exception as e:
-            pass
+            print e
+        yb.close()
+
 
 
 # def cliParse():

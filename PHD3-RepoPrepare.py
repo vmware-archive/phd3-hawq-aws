@@ -120,12 +120,13 @@ def uploadRepo(awsKey, secretKey, stack, logFile):
         logFile.write(e)
 
 
-def documentRepos(repoName):
-    print "Document Repo"
-    with open("repo-info.txt", "w+") as repoList:
-        repoList.write(repoName)
-
-
+#
+# def documentRepos(repoName):
+# print "Document Repo"
+#     with open("repo-info.txt", "w+") as repoList:
+#         repoList.write(repoName)
+#
+#
 
 
 
