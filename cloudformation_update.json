@@ -144,10 +144,7 @@
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/6-node-blueprint.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/10-node-blueprint.json \n",
 
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/wait-for-slaves.sh \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AgentRegistration.py \n",
-          "#chmod +x wait-for-slaves.sh\n",
-          "#./wait-for-slaves.sh $MY_IP $number_of_slaves\n",
           "python AgentRegistration.py monitor --agents=$number_of_slaves\n",
 
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
