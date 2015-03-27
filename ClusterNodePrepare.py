@@ -2,9 +2,12 @@ __author__ = 'root'
 
 import argparse
 import os
+import string
 
 import boto
 import boto.s3.connection
+from sh import mount, mkfs
+from fstab import Fstab
 
 import PackageManager
 
@@ -79,6 +82,21 @@ def installAmbariAgent(ambariServer):
     os.system("service ambari-agent start")
 
 
+def setupDisks(numDisks):
+    print "Setup Disks"
+    print "Making Directories"
+    devLetters = list(string.ascii_lowercase)
+    for x in range(1, numDisks + 1):
+        mkfs("/dev/xvd" + devLetters[x], "-t ext4", "-E lazy_itable_init=1")
+        if not os.path.exists("/mnt/data" + str(x)):
+            os.makedirs("/mnt/data" + str(x))
+        mount("/dev/xvd" + devLetters[x], "/mnt/data" + str(x), "-t ext4")
+        Fstab.add("/dev/xvd" + devLetters[x], "/mnt/data" + str(x), filesystem="ext4")
+
+
+
+
+
 def cliParse():
     VALID_ACTION = ["prep"]
     parser = argparse.ArgumentParser(description='Client Prepare')
@@ -89,6 +107,8 @@ def cliParse():
     parser_prep.add_argument("--stack", dest='stack', action="store", help="StackName", required=True)
     parser_prep.add_argument("--ambari", dest='ambariServer', action="store", help="Hostname of Ambari Server",
                              required=True)
+    parser_prep.add_argument("--disks", dest='numDisks', action="store", help="Number of Attached Disks",
+                             required=True)
 
     args = parser.parse_args()
     return args
@@ -97,6 +117,7 @@ def cliParse():
 if __name__ == '__main__':
     print "PHD3 Client Prepare"
     args = cliParse()
+    setupDisks(args.numDisks)
     allowSSH()
     getRepo(args.accessKey, args.secretKey, args.stack, args.ambariServer)
     removeBucket(args.accessKey, args.secretKey, args.stack)

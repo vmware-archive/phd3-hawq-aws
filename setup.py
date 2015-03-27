@@ -7,6 +7,6 @@ setup(
     license='',
     author='dbaskette',
     author_email='dbbaskette@gmail.com',
-    install_requires=["boto", "simplethreads", "requests"],
+    install_requires=["boto", "simplethreads", "requests", "sh", "fstab"],
     description='PHD3/HAWQ Repo Preparation',
 )
