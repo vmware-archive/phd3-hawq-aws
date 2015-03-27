@@ -86,7 +86,7 @@ def setupDisks(numDisks):
     print "Setup Disks"
     print "Making Directories"
     devLetters = list(string.ascii_lowercase)
-    for x in range(1, numDisks + 1):
+    for x in range(1, str(numDisks) + 1):
         mkfs("/dev/xvd" + devLetters[x], "-t ext4", "-E lazy_itable_init=1")
         if not os.path.exists("/mnt/data" + str(x)):
             os.makedirs("/mnt/data" + str(x))
