@@ -175,9 +175,14 @@ if __name__ == '__main__':
     if (args.subparser_name == "install"):
 
         hostNames = parseAmbariHosts()
+        print "-----"
+        print hostNames
+        print"-----"
         blueprintName = str(len(hostNames) - 1) + "-node-blueprint"
+        print blueprintName
         groups = parseBlueprint(blueprintName)
         # buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
+        print groups
         buildHostMappingTemplate(hostNames, groups, blueprintName)
         url = "http://localhost:8080/api/v1"
         applyBlueprint(url, blueprintName)
