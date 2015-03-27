@@ -87,10 +87,10 @@ def setupDisks(numDisks):
     print "Making Directories"
     devLetters = list(string.ascii_lowercase)
     for x in range(1, int(numDisks) + 1):
-        mkfs("/dev/xvd" + devLetters[x], "-t ext4", "-E lazy_itable_init=1")
+        mkfs("/dev/xvd" + devLetters[x], "-text4", "-E lazy_itable_init=1")
         if not os.path.exists("/mnt/data" + str(x)):
             os.makedirs("/mnt/data" + str(x))
-        mount("/dev/xvd" + devLetters[x], "/mnt/data" + str(x), "-t ext4")
+        mount("/dev/xvd" + devLetters[x], "/mnt/data" + str(x), "-text4")
         Fstab.add("/dev/xvd" + devLetters[x], "/mnt/data" + str(x), filesystem="ext4")
 
 
