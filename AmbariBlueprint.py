@@ -7,7 +7,6 @@ import argparse
 import boto
 import boto.s3.connection
 from boto.s3.key import Key
-
 import requests
 from requests.auth import HTTPBasicAuth
 
@@ -29,8 +28,7 @@ def parseAmbariHosts():
     #     hostNames.append(items["Hosts"]["host_name"])
     hostNames = []
     with open("ambariAgents.txt", "r") as agentFile:
-        hostList = agentFile.read()
-        for host in hostList:
+        for host in agentFile:
             hostNames.append(host)
 
 
