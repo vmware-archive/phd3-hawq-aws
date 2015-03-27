@@ -29,7 +29,7 @@ def parseAmbariHosts():
     hostNames = []
     with open("ambariAgents.txt", "r") as agentFile:
         for host in agentFile:
-            hostNames.append(host)
+            hostNames.append(str(host).strip())
 
 
     return hostNames
@@ -58,10 +58,7 @@ def parseBlueprint(blueprintName):
 
 def buildHostMappingTemplate(hostNames, groups, blueprintName):
     # Assign Hosts to groups
-    print hostNames
-    print "----------"
-    print socket.getfqdn()
-    print "----------"
+
     hostNames.remove(socket.getfqdn())
     template = "{\n\"blueprint\": \"" + str(
         blueprintName) + "\",\n\"default_password\": \"super-secret-password\",\n\"host_groups\": [\n"
@@ -175,18 +172,13 @@ if __name__ == '__main__':
     if (args.subparser_name == "install"):
 
         hostNames = parseAmbariHosts()
-        print "-----"
-        print hostNames
-        print"-----"
+
         blueprintName = str(len(hostNames) - 1) + "-node-blueprint"
-        print blueprintName
         groups = parseBlueprint(blueprintName)
         # buildHostMappingTemplate(hostNames, groups, len(hostNames) - 1)
-        print groups
         buildHostMappingTemplate(hostNames, groups, blueprintName)
         url = "http://localhost:8080/api/v1"
         applyBlueprint(url, blueprintName)
-        print "blueprint"
     elif (args.subparser_name == "hosts"):
         print "hosts"
         hostNames = parseAmbariHosts()
