@@ -6,7 +6,7 @@ import string
 
 import boto
 import boto.s3.connection
-from sh import mount, mkfs
+from sh import mount, mkfs, chkconfig, service
 from fstab import Fstab
 
 import PackageManager
@@ -67,7 +67,9 @@ def allowSSH():
         # contents = contents.replace("#PubkeyAuthentication", "PubkeyAuthentication")
     with (open("/etc/ssh/sshd_config", "w")) as newFile:
         newFile.write(contents)
-    os.system("service sshd restart")
+    # os.system("service sshd restart")
+    service("sshd", "restart")
+
 
 
 def installAmbariAgent(ambariServer):
@@ -79,12 +81,12 @@ def installAmbariAgent(ambariServer):
         contents = contents.replace("localhost", ambariServer)
     with (open(ambariAgentConfigFile, "w")) as newFile:
         newFile.write(contents)
-    os.system("service ambari-agent start")
+    # os.system("service ambari-agent start")
+    service("ambari-agent", "start")
 
 
 def setupDisks(numDisks):
     print "Setup Disks"
-    print "Making Directories"
     devLetters = list(string.ascii_lowercase)
     for x in range(1, int(numDisks) + 1):
         try:
@@ -103,6 +105,28 @@ def setupDisks(numDisks):
             pass
 
 
+# chkconfig iptables off
+# chkconfig ip6tables off
+# service iptables stop
+# service ip6tables stop
+# sed -i 's/SELINUX=[a-z]*/SELINUX=disabled/' /etc/selinux/config
+# echo 0 > /selinux/enforce
+
+def osConfig():
+    print "OS COnfigs"
+    chkconfig("iptables", "off")
+    chkconfig("ip6tables", "off")
+    service("iptables", "stop")
+    service("ip6tables", "stop")
+    service("ambari-agent", "start")
+    seLinux = "/etc/selinux/config"
+    with open(seLinux, "r")as origFile:
+        contents = origFile.read()
+        contents = contents.replace("SELINUX=enforcing", "SELINUX=disabled")
+    with (open(seLinux, "w")) as newFile:
+        newFile.write(contents)
+    os.system("echo 0 > /selinux/enforce")
+    service("ambari-agent", "start")
 
 
 def cliParse():
