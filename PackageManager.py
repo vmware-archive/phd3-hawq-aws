@@ -28,7 +28,7 @@ def install(pkg):
 
         except Exception as e:
             print e
-        yb.close()
+    yb.close()
 
 
 
@@ -46,34 +46,5 @@ def remove(pkg):
 
         except Exception as e:
             print e
-        yb.close()
+    yb.close()
 
-
-
-# def cliParse():
-# VALID_ACTION = ["install", "remove"]
-#     parser = argparse.ArgumentParser(description='YUM Package Manager')
-#     subparsers = parser.add_subparsers(help='sub-command help', dest="subparser_name")
-#     parser_install = subparsers.add_parser("install", help="Install a YUM Package")
-#     parser_install.add_argument("--pkgs", dest='pkgs', action="store", help="Package Names", required=True)
-#     parser_remove = subparsers.add_parser("remove", help="Remove a YUM Packager")
-#     parser_remove.add_argument("--pkgs", dest='pkgs', action="store", help="Package Names", required=True)
-#
-#     args = parser.parse_args()
-#     pkgs = []
-#
-#     if (args.subparser_name == "install"):
-#         for pkg in args.pkgs.split(","):
-#             print pkg
-#             pkgs.append(pkg)
-#         install(pkgs)
-#     elif (args.subparser_name == "remove"):
-#         for pkg in args.pkgs.split(","):
-#             print pkg
-#             pkgs.append(pkg)
-#         remove(pkgs)
-#
-#
-# if __name__ == '__main__':
-#     print "PHD3 Client Prepare"
-#     cliParse()

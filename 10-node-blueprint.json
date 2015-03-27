@@ -12,7 +12,6 @@
         {"name": "NAMENODE"},
         {"name": "PXF"},
         {"name": "ZOOKEEPER_SERVER"},
-        {"name": "HBASE_MASTER"},
         {"name": "GANGLIA_SERVER"},
         {"name": "HDFS_CLIENT"},
         {"name": "YARN_CLIENT"},
@@ -49,7 +48,12 @@
       "name": "master_4",
       "components": [
         {"name": "ZOOKEEPER_SERVER"},
-        {"name": "GANGLIA_MONITOR"}
+        {"name": "GANGLIA_MONITOR"},
+        {"name": "HIVE_SERVER"},
+        {"name": "HIVE_METASTORE"},
+        {"name": "MYSQL_SERVER"},
+        {"name": "HCAT"}
+
       ]
     },
     {
@@ -69,11 +73,12 @@
       "components": [
         {"name": "NAGIOS_SERVER"},
         {"name": "ZOOKEEPER_CLIENT"},
-        {"name": "HBASE_CLIENT"},
         {"name": "HDFS_CLIENT"},
         {"name": "YARN_CLIENT"},
         {"name": "MAPREDUCE2_CLIENT"},
-        {"name": "GANGLIA_MONITOR"}
+        {"name": "GANGLIA_MONITOR"},
+        {"name": "HIVE_CLIENT"}
+
       ]
     }
   ],
