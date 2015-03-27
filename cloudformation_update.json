@@ -217,7 +217,7 @@
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/ClusterNodePrepare.py \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PackageManager.py \n",
           "python setup.py install \n",
-          "python ClusterNodePrepare.py prep --key=$access_key --secret=$secret_key --stack=$stack_name --ambari=",
+          "python ClusterNodePrepare.py prep --key=$access_key --secret=$secret_key --stack=$stack_name --disks=4 --ambari=",
           {
             "Fn::GetAtt": [
               "ManagementNode",
