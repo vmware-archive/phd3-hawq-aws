@@ -126,12 +126,6 @@
           "python setup.py install \n",
           "python PHD3-RepoPrepare.py get --key=$access_key --secret=$secret_key --stack=$stack_name\n",
 
-      	  "chkconfig iptables off \n",
-		  "chkconfig ip6tables off \n",
-		  "service iptables stop \n",
-          "service ip6tables stop \n",
-          "sed -i 's/SELINUX=[a-z]*/SELINUX=disabled/' /etc/selinux/config \n",
-          "echo 0 > /selinux/enforce \n",
           "yum install -y ambari-server\n",
 
 		  "mv jdk-7u67-linux-x64.tar.gz /var/lib/ambari-server/resources/ \n",
@@ -154,11 +148,8 @@
 
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/wait-for-slaves.sh \n",
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AgentRegistration.py \n",
-
-
-
-          "chmod +x wait-for-slaves.sh\n",
-          "./wait-for-slaves.sh $MY_IP $number_of_slaves\n",
+          "#chmod +x wait-for-slaves.sh\n",
+          "#./wait-for-slaves.sh $MY_IP $number_of_slaves\n",
           "python AgentRegistration.py monitor --agents=$number_of_slaves\n",
 
           "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",

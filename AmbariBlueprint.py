@@ -15,18 +15,25 @@ from requests.auth import HTTPBasicAuth
 def parseAmbariHosts():
     # Parse ambari-hosts.txt and pull out agent hostnames
 
-    jsonString = ""
-    jsonFound = False
+    # jsonString = ""
+    # jsonFound = False
+    # hostNames = []
+    # with open("./ambari-hosts.txt", "r") as hostsFile:
+    # for line in hostsFile:
+    #         if "{" in line:
+    #             jsonFound = True
+    #         if jsonFound:
+    #             jsonString = jsonString + line
+    #             # jsonString = jsonString[:-1]
+    # for items in json.loads(jsonString)["items"]:
+    #     hostNames.append(items["Hosts"]["host_name"])
     hostNames = []
-    with open("./ambari-hosts.txt", "r") as hostsFile:
-        for line in hostsFile:
-            if "{" in line:
-                jsonFound = True
-            if jsonFound:
-                jsonString = jsonString + line
-                # jsonString = jsonString[:-1]
-    for items in json.loads(jsonString)["items"]:
-        hostNames.append(items["Hosts"]["host_name"])
+    with open("ambariAgents.txt", "r") as agentFile:
+        hostList = agentFile.read()
+        for host in hostList:
+            hostNames.append(host)
+
+
     return hostNames
 
 def parseBlueprint(blueprintName):
