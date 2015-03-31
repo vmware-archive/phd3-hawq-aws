@@ -119,10 +119,9 @@
 		  "wget --no-check-certificate http://public-repo-1.hortonworks.com/ARTIFACTS/UnlimitedJCEPolicyJDK7.zip \n",
 
 		  "yum -y install jdk-7u67-linux-x64.rpm \n",
-
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setup.py \n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PHD3-RepoPrepare.py \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/setup.py \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/phd3.json \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/PHD3-RepoPrepare.py \n",
           "python setup.py install \n",
           "python PHD3-RepoPrepare.py get --key=$access_key --secret=$secret_key --stack=$stack_name\n",
 
@@ -134,20 +133,18 @@
           "ambari-server setup -s\n",
           "yum install -y hawq-plugin >> phd.log\n",
           "ambari-server start >> phd.log \n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/SetRepos.py \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/SetRepos.py \n",
           "python SetRepos.py \n",
           "yum install -y ambari-agent\n",
           "ambari-agent start\n",
 
           "MY_IP=`(curl http://169.254.169.254/latest/meta-data/local-hostname)`\n",
           "number_of_slaves=", { "Ref" : "ClusterNodes" } , "\n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/6-node-blueprint.json \n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/10-node-blueprint.json \n",
-
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AgentRegistration.py \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/6-node-blueprint.json \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/10-node-blueprint.json \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/AgentRegistration.py \n",
           "python AgentRegistration.py monitor --agents=$number_of_slaves\n",
-
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/AmbariBlueprint.py \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/AmbariBlueprint.py \n",
           "python AmbariBlueprint.py hosts --key=$access_key --secret=$secret_key --stack=$stack_name\n",
           "python AmbariBlueprint.py install>> phd.log \n"
         ]
@@ -195,10 +192,10 @@
           "secret_key=",
           {"Ref": "SecretKey"},
           "\n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/setup.py \n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/phd3.json \n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/ClusterNodePrepare.py \n",
-          "wget https://raw.githubusercontent.com/dbbaskette/heffalump/master/PackageManager.py \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/setup.py \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/phd3.json \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/ClusterNodePrepare.py \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/PackageManager.py \n",
           "python setup.py install \n",
           "python ClusterNodePrepare.py prep --key=$access_key --secret=$secret_key --stack=$stack_name --disks=4 --ambari=",
           {

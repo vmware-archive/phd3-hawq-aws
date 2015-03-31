@@ -1,4 +1,5 @@
-#Heffalump
+#phd3-hawq-aws
+previously known as Heffalump
 
 CloudFormation script for Auto-Deploying [Pivotal HD 3.0](http://pivotal.io/big-data/pivotal-hd) and HAWQ on AWS with [Ambari Blueprints.](https://cwiki.apache.org/confluence/display/AMBARI/Blueprints)    These scripts will
 build out a cluster of a specific size, and then deploy Pivotal HD 3.0 on the cluster according to the specifications
@@ -7,7 +8,7 @@ cluster size.  The current options are:
 *  6 Nodes plus a Gateway/Management Node
 * 10 Nodes plus a Gateway/Management Node
 
-The CloudFormation cluster design in this revision of Heffalump is a simplistic design that was created to simplify the
+The CloudFormation cluster design in this revision is a simplistic design that was created to simplify the
 development process.   A new, more robust design is under development and will be added to the project soon.
 
 Upcoming features:
@@ -17,6 +18,6 @@ Upcoming features:
 * Kerberos Authenticated cluster
 
 
-![alt tag](https://raw.githubusercontent.com/dbbaskette/heffalump/master/docs/HeffalumpWorkflow.jpg)
+![alt tag](https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/docs/Workflow.jpg)
 
 
