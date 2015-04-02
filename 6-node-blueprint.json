@@ -89,7 +89,7 @@
       {
         "hdfs-site": {
           "dfs.namenode.name.dir": "/mnt/data1/hdfs/namenode",
-          "dfs.datanode.data.dir": "/mnt/data1/hdfs/data,/mnt/data2/hdfs/data,/mnt/data3/hdfs/data/,mnt/data4/hdfs/data",
+          "dfs.datanode.data.dir": "/mnt/data1/hdfs/data,/mnt/data2/hdfs/data,/mnt/data3/hdfs/data/,/mnt/data4/hdfs/data",
           "dfs.support.append": true,
           "dfs.client.read.shortcircuit": true,
           "dfs.block.local-path-access.user": "gpadmin",
