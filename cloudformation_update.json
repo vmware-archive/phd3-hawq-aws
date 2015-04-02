@@ -66,8 +66,7 @@
 	  "i2.8xlarge" : { "Arch" : "64HVM" },
       "hs1.8xlarge" : { "Arch" : "64HVM" },
     "c3.4xlarge" : { "Arch" : "64HVM" },
-      "m3.2xlarge": {"Arch": "64HVM"},
-      "m2.4xlarge": {"Arch": "64HVM"}
+      "m3.2xlarge": {"Arch": "64HVM"}
 
 
     },
