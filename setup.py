@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='PHD3-Installers',
     version='.5',
-    url='https://github.com/dbbaskette/heffalump',
+    url='https://github.com/dbbaskette/phd3-hawq-aws',
     license='',
     author='dbaskette',
     author_email='dbbaskette@gmail.com',

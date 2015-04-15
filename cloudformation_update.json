@@ -112,15 +112,17 @@
           "\n",
           "yum clean all \n",
           "yum -y remove *openjdk \n",
+          "#wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.rpm \n",
+          "#wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.tar.gz \n",
+          "#wget --no-check-certificate http://public-repo-1.hortonworks.com/ARTIFACTS/UnlimitedJCEPolicyJDK7.zip \n",
 
-          "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.rpm \n",
-      	  "wget --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.tar.gz \n",
-		  "wget --no-check-certificate http://public-repo-1.hortonworks.com/ARTIFACTS/UnlimitedJCEPolicyJDK7.zip \n",
-
-		  "yum -y install jdk-7u67-linux-x64.rpm \n",
           "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/setup.py \n",
           "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/phd3.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/PHD3-RepoPrepare.py \n",
+          "yum -y install jdk-7u67-linux-x64.rpm \n",
+
+
+
           "python setup.py install \n",
           "python PHD3-RepoPrepare.py get --key=$access_key --secret=$secret_key --stack=$stack_name\n",
 
