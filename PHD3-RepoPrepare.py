@@ -56,7 +56,8 @@ def getSoftware(awsKey, secretKey):
         for key in bucket.get_all_keys():
             fileName = str(key).split(",")[1][:-1]
             pool.process(downloadSoftware, key, fileName)
-            fileNames.append(fileName)
+            if (fileName.find("tar")):
+                fileNames.append(fileName)
     pool.shutdown()
     conn.close()
     return fileNames
@@ -93,7 +94,7 @@ def createRepo(fileNames, logFile):
             repoPath = baseDir + repoName
             os.system(repoPath + "/setup_repo.sh")
         except Exception as e:
-            logFile.write(e)
+            pass
 
 
 def allowSSH():
