@@ -55,11 +55,13 @@ def getSoftware(awsKey, secretKey):
         bucket = conn.get_bucket(bucketName)
         for key in bucket.get_all_keys():
             fileName = str(key).split(",")[1][:-1]
+            print fileName
             pool.process(downloadSoftware, key, fileName)
             if (fileName.find("tar")):
                 fileNames.append(fileName)
     pool.shutdown()
     conn.close()
+    print fileNames
     return fileNames
 
 
