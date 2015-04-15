@@ -57,7 +57,7 @@ def getSoftware(awsKey, secretKey):
             fileName = str(key).split(",")[1][:-1]
             print fileName
             pool.process(downloadSoftware, key, fileName)
-            if (fileName.find("tar")):
+            if "tar" in fileName:
                 fileNames.append(fileName)
     pool.shutdown()
     conn.close()
@@ -130,7 +130,6 @@ def uploadRepo(awsKey, secretKey, stack, logFile):
 #         repoList.write(repoName)
 #
 #
-
 
 
 
