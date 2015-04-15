@@ -122,7 +122,6 @@
           "yum -y install /mnt/phd3/software/jdk-7u67-linux-x64.rpm \n",
           "python setup.py install \n",
           "python PHD3-RepoPrepare.py get --key=$access_key --secret=$secret_key --stack=$stack_name\n",
-
           "yum install -y ambari-server\n",
           "mv /mnt/phd3/software/jdk-7u67-linux-x64.tar /var/lib/ambari-server/resources/ \n",
           "mv /mnt/phd3/software/UnlimitedJCEPolicyJDK7.zip /var/lib/ambari-server/resources/ \n",
