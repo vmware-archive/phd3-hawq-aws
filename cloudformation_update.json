@@ -119,7 +119,7 @@
           "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/setup.py \n",
           "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/phd3.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/PHD3-RepoPrepare.py \n",
-          "yum -y install jdk-7u67-linux-x64.rpm \n",
+          "yum -y install /mnt/phd3/software/jdk-7u67-linux-x64.rpm \n",
 
 
 
@@ -127,9 +127,8 @@
           "python PHD3-RepoPrepare.py get --key=$access_key --secret=$secret_key --stack=$stack_name\n",
 
           "yum install -y ambari-server\n",
-
-		  "mv jdk-7u67-linux-x64.tar.gz /var/lib/ambari-server/resources/ \n",
-		  "mv UnlimitedJCEPolicyJDK7.zip /var/lib/ambari-server/resources/ \n",
+          "mv /mnt/phd3/software/jdk-7u67-linux-x64.tar.gz /var/lib/ambari-server/resources/ \n",
+          "mv /mnt/phd3/software/UnlimitedJCEPolicyJDK7.zip /var/lib/ambari-server/resources/ \n",
 
           "ambari-server setup -s\n",
           "yum install -y hawq-plugin >> phd.log\n",
