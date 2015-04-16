@@ -137,6 +137,8 @@
           "number_of_slaves=", { "Ref" : "ClusterNodes" } , "\n",
           "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/6-node-blueprint.json \n",
           "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/10-node-blueprint.json \n",
+          "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/18-node-blueprint.json \n",
+
           "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/AgentRegistration.py \n",
           "python AgentRegistration.py monitor --agents=$number_of_slaves\n",
           "wget https://raw.githubusercontent.com/dbbaskette/phd3-hawq-aws/master/AmbariBlueprint.py \n",
