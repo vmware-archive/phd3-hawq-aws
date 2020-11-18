@@ -1,4 +1,4 @@
-#phd3-hawq-aws
+<h1> VMware has ended active development of this project, this repository will no longer be updated.</h1><br>#phd3-hawq-aws
 previously known as Heffalump
 
 CloudFormation script for Auto-Deploying [Pivotal HD 3.0](http://pivotal.io/big-data/pivotal-hd) and HAWQ on AWS with [Ambari Blueprints.](https://cwiki.apache.org/confluence/display/AMBARI/Blueprints)    These scripts will
